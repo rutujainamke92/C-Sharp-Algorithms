@@ -9,6 +9,9 @@ namespace UnitTest.AlgorithmsTests
         [Fact]
         public static void DoTest()
         {
+            //add two numbers
+            int a = 2 + 5;
+            
             var alphabets = "abcdefg";
 
             var permutations = Permutations.ComputeDistinct(alphabets);

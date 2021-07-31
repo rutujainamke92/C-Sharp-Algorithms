@@ -39,10 +39,10 @@ namespace DataStructures.Lists
                 throw new ArgumentOutOfRangeException();
             }
 
-            _size = 0;
-            _headPointer = 0;
-            _tailPointer = 0;
-            _collection = new T[initialCapacity];
+            Size = 0;
+            HeadPointer = 0;
+            TailPointer = 0;
+            Collection = new T[initialCapacity];
         }
 
         #endregion
@@ -52,13 +52,13 @@ namespace DataStructures.Lists
         /// <summary>
         /// INSTANCE VARIABLE.
         /// </summary>
-        private int _size { get; set; }
+        private int Size { get; set; }
 
-        private int _headPointer { get; set; }
-        private int _tailPointer { get; set; }
+        private int HeadPointer { get; set; }
+        private int TailPointer { get; set; }
 
         // The internal collection.
-        private T[] _collection { get; set; }
+        private T[] Collection { get; set; }
 
         #endregion
 
@@ -69,9 +69,9 @@ namespace DataStructures.Lists
         /// </summary>
         private void _resize(int newSize)
         {
-            if (newSize > _size && !IsMaximumCapacityReached)
+            if (newSize > Size && !IsMaximumCapacityReached)
             {
-                int capacity = (_collection.Length == 0 ? _defaultCapacity : _collection.Length * 2);
+                int capacity = (Collection.Length == 0 ? _defaultCapacity : Collection.Length * 2);
 
                 // Allow the list to grow to maximum possible capacity (~2G elements) before encountering overflow.
                 // Note that this check works even when _items.Length overflowed thanks to the (uint) cast
@@ -93,8 +93,8 @@ namespace DataStructures.Lists
                     //Array.Resize (ref _collection, newSize);
 
                     var tempCollection = new T[newSize];
-                    Array.Copy(_collection, _headPointer, tempCollection, 0, _size);
-                    _collection = tempCollection;
+                    Array.Copy(Collection, HeadPointer, tempCollection, 0, Size);
+                    Collection = tempCollection;
                 }
                 catch (OutOfMemoryException)
                 {
@@ -116,7 +116,7 @@ namespace DataStructures.Lists
         /// </summary>
         public int Count
         {
-            get { return _size; }
+            get { return Size; }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace DataStructures.Lists
         /// </summary>
         public bool IsEmpty
         {
-            get { return _size == 0; }
+            get { return Size == 0; }
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace DataStructures.Lists
                 if (IsEmpty)
                     throw new Exception("Queue is empty.");
 
-                return _collection[_headPointer];
+                return Collection[HeadPointer];
             }
         }
 
@@ -147,11 +147,11 @@ namespace DataStructures.Lists
         /// <param name="dataItem">Element to be inserted.</param>
         public void Enqueue(T dataItem)
         {
-            if (_size == _collection.Length)
+            if (Size == Collection.Length)
             {
                 try
                 {
-                    _resize(_collection.Length * 2);
+                    _resize(Collection.Length * 2);
                 }
                 catch (OutOfMemoryException ex)
                 {
@@ -160,14 +160,14 @@ namespace DataStructures.Lists
             }
 
             // Enqueue item at tail and then increment tail
-            _collection[_tailPointer++] = dataItem;
+            Collection[TailPointer++] = dataItem;
 
             // Wrap around
-            if (_tailPointer == _collection.Length)
-                _tailPointer = 0;
+            if (TailPointer == Collection.Length)
+                TailPointer = 0;
 
             // Increment size
-            _size++;
+            Size++;
         }
 
         /// <summary>
@@ -179,32 +179,32 @@ namespace DataStructures.Lists
             if (IsEmpty)
                 throw new Exception("Queue is empty.");
 
-            var topItem = _collection[_headPointer];
-            _collection[_headPointer] = default(T);
+            var topItem = Collection[HeadPointer];
+            Collection[HeadPointer] = default(T);
 
             // Decrement the size
-            _size--;
+            Size--;
 
             // Increment the head pointer
-            _headPointer++;
+            HeadPointer++;
 
             // Reset the pointer
-            if (_headPointer == _collection.Length)
-                _headPointer = 0;
+            if (HeadPointer == Collection.Length)
+                HeadPointer = 0;
 
             // Shrink the internal collection
-            if (_size > 0 && _collection.Length > _defaultCapacity && _size <= _collection.Length / 4)
+            if (Size > 0 && Collection.Length > _defaultCapacity && Size <= Collection.Length / 4)
             {
                 // Get head and tail
-                var head = _collection[_headPointer];
-                var tail = _collection[_tailPointer];
+                var head = Collection[HeadPointer];
+                var tail = Collection[TailPointer];
 
                 // Shrink
-                _resize((_collection.Length / 3) * 2);
+                _resize((Collection.Length / 3) * 2);
 
                 // Update head and tail pointers
-                _headPointer = Array.IndexOf(_collection, head);
-                _tailPointer = Array.IndexOf(_collection, tail);
+                HeadPointer = Array.IndexOf(Collection, head);
+                TailPointer = Array.IndexOf(Collection, tail);
             }
 
             return topItem;
@@ -216,12 +216,12 @@ namespace DataStructures.Lists
         /// <returns>System.Array.</returns>
         public T[] ToArray()
         {
-            var array = new T[_size];
+            var array = new T[Size];
 
             int j = 0;
-            for (int i = 0; i < _size; ++i)
+            for (int i = 0; i < Size; ++i)
             {
-                array[j] = _collection[_headPointer + i];
+                array[j] = Collection[HeadPointer + i];
                 j++;
             }
 
@@ -247,7 +247,7 @@ namespace DataStructures.Lists
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _collection.GetEnumerator() as IEnumerator<T>;
+            return Collection.GetEnumerator() as IEnumerator<T>;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

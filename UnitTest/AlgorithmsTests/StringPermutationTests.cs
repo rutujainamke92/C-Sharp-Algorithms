@@ -10,6 +10,7 @@ namespace UnitTest.AlgorithmsTests
         public static void DoTest()
         {
             //add two numbers
+            //another comment to test 
             int a = 2 + 5;
             
             var alphabets = "abcdefg";

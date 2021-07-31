@@ -3,21 +3,15 @@ using System.Collections.Generic;
 
 namespace DataStructures.Lists
 {
+
     /// <summary>
     /// The Stack (LIFO) Data Structure.
     /// </summary>
     /// <typeparam name="T">Type</typeparam>
     public class Stack<T> : IEnumerable<T> where T : IComparable<T>
     {
-        /// <summary>
-        /// Instance variables.
-        /// _collection: Array-Based List.
-        /// Count: Public Getter for returning the number of elements.
-        /// </summary>
-        private ArrayList<T> _collection { get; set; }
-        public int Count { get { return _collection.Count; } }
 
-
+        #region Constructor
         /// <summary>
         /// CONSTRUCTORS
         /// </summary>
@@ -40,7 +34,17 @@ namespace DataStructures.Lists
             // See the ArrayList.cs for the list implementation.
             _collection = new ArrayList<T>(initialCapacity);
         }
+        #endregion
 
+        #region Properties
+        /// <summary>
+        /// Instance variables.
+        /// _collection: Array-Based List.
+        /// Count: Public Getter for returning the number of elements.
+        /// </summary>
+        private ArrayList<T> _collection { get; set; }
+
+        public int Count { get { return _collection.Count; } }
 
         /// <summary>
         /// Checks whether the stack is empty.
@@ -53,7 +57,6 @@ namespace DataStructures.Lists
                 return _collection.IsEmpty;
             }
         }
-
 
         /// <summary>
         /// Returns the top element in the stack.
@@ -73,6 +76,9 @@ namespace DataStructures.Lists
             }
         }
 
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Inserts an element at the top of the stack.
@@ -82,7 +88,6 @@ namespace DataStructures.Lists
         {
             _collection.Add(dataItem);
         }
-
 
         /// <summary>
         /// Removes the top element from stack.
@@ -133,6 +138,6 @@ namespace DataStructures.Lists
             return this.GetEnumerator();
         }
 
+        #endregion
     }
-
 }

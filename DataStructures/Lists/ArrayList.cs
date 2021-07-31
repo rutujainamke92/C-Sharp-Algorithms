@@ -9,14 +9,16 @@ namespace DataStructures.Lists
     /// </summary>
     public class ArrayList<T> : IEnumerable<T>
     {
+        #region Fields
+
         /// <summary>
         /// Instance variables.
         /// </summary>
 
         // This sets the default maximum array length to refer to MAXIMUM_ARRAY_LENGTH_x64
         // Set the flag IsMaximumCapacityReached to false
-        bool DefaultMaxCapacityIsX64 = true;
-        bool IsMaximumCapacityReached = false;
+        private bool DefaultMaxCapacityIsX64 = true;
+        private bool IsMaximumCapacityReached = false;
 
         // The C# Maximum Array Length (before encountering overflow)
         // Reference: http://referencesource.microsoft.com/#mscorlib/system/array.cs,2d2b551eabe74985
@@ -33,10 +35,9 @@ namespace DataStructures.Lists
         // NOT A PROPERTY.
         private T[] _collection;
 
-        // This keeps track of the number of elements added to the array.
-        // Serves as an index of last item + 1.
-        private int _size { get; set; }
+        #endregion
 
+        #region Constructors
 
         /// <summary>
         /// CONSTRUCTORS
@@ -60,15 +61,150 @@ namespace DataStructures.Lists
             }
 
             // Zerofiy the _size;
-            _size = 0;
+            Size = 0;
         }
 
+        #endregion
+
+        #region Properties
+
+        // This keeps track of the number of elements added to the array.
+        // Serves as an index of last item + 1.
+        private int Size { get; set; }
+
+        /// <summary>
+        /// Gets the the number of elements in list.
+        /// </summary>
+        /// <value>Int.</value>
+        public int Count
+        {
+            get
+            {
+                return Size;
+            }
+        }
+
+        /// <summary>
+        /// Returns the capacity of list, which is the total number of slots.
+        /// </summary>
+        public int Capacity
+        {
+            get { return _collection.Length; }
+        }
+
+        /// <summary>
+        /// Determines whether this list is empty.
+        /// </summary>
+        /// <returns><c>true</c> if list is empty; otherwise, <c>false</c>.</returns>
+        public bool IsEmpty
+        {
+            get
+            {
+                return (Count == 0);
+            }
+        }
+
+        /// <summary>
+        /// Gets the first element in the list.
+        /// </summary>
+        /// <value>The first.</value>
+        public T First
+        {
+            get
+            {
+                if (Count == 0)
+                {
+                    throw new IndexOutOfRangeException("List is empty.");
+                }
+
+                return _collection[0];
+            }
+        }
+
+        /// <summary>
+        /// Gets the last element in the list.
+        /// </summary>
+        /// <value>The last.</value>
+        public T Last
+        {
+            get
+            {
+                if (IsEmpty)
+                {
+                    throw new IndexOutOfRangeException("List is empty.");
+                }
+
+                return _collection[Count - 1];
+            }
+        }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
+        /// Gets or sets the item at the specified index.
+        /// example: var a = list[0];
+        /// example: list[0] = 1;
+        /// </summary>
+        /// <param name="index">Index.</param>
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Size)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                return _collection[index];
+            }
+
+            set
+            {
+                if (index < 0 || index >= Size)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                _collection[index] = value;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Resizes the collection to a new maximum number of capacity.
+        /// </summary>
+        /// <param name="newCapacity">New capacity.</param>
+        private void ResizeCapacity(int newCapacity)
+        {
+            if (newCapacity != _collection.Length && newCapacity > Size)
+            {
+                try
+                {
+                    Array.Resize<T>(ref _collection, newCapacity);
+                }
+                catch (OutOfMemoryException)
+                {
+                    if (DefaultMaxCapacityIsX64 == true)
+                    {
+                        DefaultMaxCapacityIsX64 = false;
+                        EnsureCapacity(newCapacity);
+                    }
+
+                    throw;
+                }
+            }
+        }
 
         /// <summary>
         /// Ensures the capacity.
         /// </summary>
         /// <param name="minCapacity">Minimum capacity.</param>
-        private void _ensureCapacity(int minCapacity)
+        private void EnsureCapacity(int minCapacity)
         {
             // If the length of the inner collection is less than the minCapacity
             // ... and if the maximum capacity wasn't reached yet, 
@@ -90,137 +226,9 @@ namespace DataStructures.Lists
                     IsMaximumCapacityReached = true;
                 }
 
-                this._resizeCapacity(newCapacity);
+                this.ResizeCapacity(newCapacity);
             }
         }
-
-
-        /// <summary>
-        /// Resizes the collection to a new maximum number of capacity.
-        /// </summary>
-        /// <param name="newCapacity">New capacity.</param>
-        private void _resizeCapacity(int newCapacity)
-        {
-            if (newCapacity != _collection.Length && newCapacity > _size)
-            {
-                try
-                {
-                    Array.Resize<T>(ref _collection, newCapacity);
-                }
-                catch (OutOfMemoryException)
-                {
-                    if (DefaultMaxCapacityIsX64 == true)
-                    {
-                        DefaultMaxCapacityIsX64 = false;
-                        _ensureCapacity(newCapacity);
-                    }
-
-                    throw;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the the number of elements in list.
-        /// </summary>
-        /// <value>Int.</value>
-        public int Count
-        {
-            get
-            {
-                return _size;
-            }
-        }
-
-
-        /// <summary>
-        /// Returns the capacity of list, which is the total number of slots.
-        /// </summary>
-        public int Capacity
-        {
-            get { return _collection.Length; }
-        }
-
-
-        /// <summary>
-        /// Determines whether this list is empty.
-        /// </summary>
-        /// <returns><c>true</c> if list is empty; otherwise, <c>false</c>.</returns>
-        public bool IsEmpty
-        {
-            get
-            {
-                return (Count == 0);
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the first element in the list.
-        /// </summary>
-        /// <value>The first.</value>
-        public T First
-        {
-            get
-            {
-                if (Count == 0)
-                {
-                    throw new IndexOutOfRangeException("List is empty.");
-                }
-
-                return _collection[0];
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the last element in the list.
-        /// </summary>
-        /// <value>The last.</value>
-        public T Last
-        {
-            get
-            {
-                if (IsEmpty)
-                {
-                    throw new IndexOutOfRangeException("List is empty.");
-                }
-
-                return _collection[Count - 1];
-            }
-        }
-
-
-        /// <summary>
-        /// Gets or sets the item at the specified index.
-        /// example: var a = list[0];
-        /// example: list[0] = 1;
-        /// </summary>
-        /// <param name="index">Index.</param>
-        public T this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= _size)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                return _collection[index];
-            }
-
-            set
-            {
-                if (index < 0 || index >= _size)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                _collection[index] = value;
-            }
-        }
-
 
         /// <summary>
         /// Add the specified dataItem to list.
@@ -228,12 +236,12 @@ namespace DataStructures.Lists
         /// <param name="dataItem">Data item.</param>
         public void Add(T dataItem)
         {
-            if (_size == _collection.Length)
+            if (Size == _collection.Length)
             {
-                _ensureCapacity(_size + 1);
+                EnsureCapacity(Size + 1);
             }
 
-            _collection[_size++] = dataItem;
+            _collection[Size++] = dataItem;
         }
 
 
@@ -247,13 +255,13 @@ namespace DataStructures.Lists
                 throw new ArgumentNullException();
 
             // make sure the size won't overflow by adding the range
-            if (((uint)_size + elements.Count()) > MAXIMUM_ARRAY_LENGTH_x64)
+            if (((uint)Size + elements.Count()) > MAXIMUM_ARRAY_LENGTH_x64)
                 throw new OverflowException();
 
             // grow the internal collection once to avoid doing multiple redundant grows
             if (elements.Any())
             {
-                _ensureCapacity(_size + elements.Count());
+                EnsureCapacity(Size + elements.Count());
 
                 foreach (var element in elements)
                     this.Add(element);
@@ -269,13 +277,13 @@ namespace DataStructures.Lists
             if (count < 0)
                 throw new ArgumentOutOfRangeException();
 
-            if (((uint)_size + count) > MAXIMUM_ARRAY_LENGTH_x64)
+            if (((uint)Size + count) > MAXIMUM_ARRAY_LENGTH_x64)
                 throw new OverflowException();
 
             // grow the internal collection once to avoid doing multiple redundant grows
             if (count > 0)
             {
-                _ensureCapacity(_size + count);
+                EnsureCapacity(Size + count);
 
                 for (int i = 0; i < count; i++)
                     this.Add(value);
@@ -290,31 +298,31 @@ namespace DataStructures.Lists
         /// <param name="index">Index of insertion.</param>
         public void InsertAt(T dataItem, int index)
         {
-            if (index < 0 || index > _size)
+            if (index < 0 || index > Size)
             {
                 throw new IndexOutOfRangeException("Please provide a valid index.");
             }
 
             // If the inner array is full and there are no extra spaces, 
             // ... then maximize it's capacity to a minimum of _size + 1.
-            if (_size == _collection.Length)
+            if (Size == _collection.Length)
             {
-                _ensureCapacity(_size + 1);
+                EnsureCapacity(Size + 1);
             }
 
             // If the index is not "at the end", then copy the elements of the array
             // ... between the specified index and the last index to the new range (index + 1, _size);
             // The cell at "index" will become available.
-            if (index < _size)
+            if (index < Size)
             {
-                Array.Copy(_collection, index, _collection, index + 1, (_size - index));
+                Array.Copy(_collection, index, _collection, index + 1, (Size - index));
             }
 
             // Write the dataItem to the available cell.
             _collection[index] = dataItem;
 
             // Increase the size.
-            _size++;
+            Size++;
         }
 
 
@@ -343,23 +351,23 @@ namespace DataStructures.Lists
         /// <param name="index">Index of element.</param>
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= _size)
+            if (index < 0 || index >= Size)
             {
                 throw new IndexOutOfRangeException("Please pass a valid index.");
             }
 
             // Decrease the size by 1, to avoid doing Array.Copy if the element is to be removed from the tail of list. 
-            _size--;
+            Size--;
 
             // If the index is still less than size, perform an Array.Copy to override the cell at index.
             // This operation is O(N), where N = size - index.
-            if (index < _size)
+            if (index < Size)
             {
-                Array.Copy(_collection, index + 1, _collection, index, (_size - index));
+                Array.Copy(_collection, index + 1, _collection, index, (Size - index));
             }
 
             // Reset the writable cell to the default value of type T.
-            _collection[_size] = default(T);
+            _collection[Size] = default(T);
         }
 
 
@@ -368,10 +376,10 @@ namespace DataStructures.Lists
         /// </summary>
         public void Clear()
         {
-            if (_size > 0)
+            if (Size > 0)
             {
-                _size = 0;
-                Array.Clear(_collection, 0, _size);
+                Size = 0;
+                Array.Clear(_collection, 0, Size);
                 _collection = _emptyArray;
             }
         }
@@ -395,14 +403,14 @@ namespace DataStructures.Lists
 
             if (newSize < currentSize)
             {
-                this._ensureCapacity(newSize);
+                this.EnsureCapacity(newSize);
             }
             else if (newSize > currentSize)
             {
                 // Optimisation step.
                 // This is just to avoid multiple automatic capacity changes.
                 if (newSize > this._collection.Length)
-                    this._ensureCapacity(newSize + 1);
+                    this.EnsureCapacity(newSize + 1);
 
                 this.AddRange(Enumerable.Repeat<T>(defaultValue, newSize - currentSize));
             }
@@ -414,7 +422,7 @@ namespace DataStructures.Lists
         /// </summary>
         public void Reverse()
         {
-            Reverse(0, _size);
+            Reverse(0, Size);
         }
 
 
@@ -426,13 +434,13 @@ namespace DataStructures.Lists
         public void Reverse(int startIndex, int count)
         {
             // Handle the bounds of startIndex
-            if (startIndex < 0 || startIndex >= _size)
+            if (startIndex < 0 || startIndex >= Size)
             {
                 throw new IndexOutOfRangeException("Please pass a valid starting index.");
             }
 
             // Handle the bounds of count and startIndex with respect to _size.
-            if (count < 0 || startIndex > (_size - count))
+            if (count < 0 || startIndex > (Size - count))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -456,7 +464,7 @@ namespace DataStructures.Lists
                 throw new ArgumentNullException();
             }
 
-            for (int i = 0; i < _size; ++i)
+            for (int i = 0; i < Size; ++i)
             {
                 action(_collection[i]);
             }
@@ -473,7 +481,7 @@ namespace DataStructures.Lists
             // Null-value check
             if ((Object)dataItem == null)
             {
-                for (int i = 0; i < _size; ++i)
+                for (int i = 0; i < Size; ++i)
                 {
                     if ((Object)_collection[i] == null) return true;
                 }
@@ -484,7 +492,7 @@ namespace DataStructures.Lists
                 // Use it to get the equal match for the dataItem
                 EqualityComparer<T> comparer = EqualityComparer<T>.Default;
 
-                for (int i = 0; i < _size; ++i)
+                for (int i = 0; i < Size; ++i)
                 {
                     if (comparer.Equals(_collection[i], dataItem)) return true;
                 }
@@ -511,14 +519,14 @@ namespace DataStructures.Lists
             // Null-value check
             if ((Object)dataItem == null)
             {
-                for (int i = 0; i < _size; ++i)
+                for (int i = 0; i < Size; ++i)
                 {
                     if ((Object)_collection[i] == null) return true;
                 }
             }
             else
             {
-                for (int i = 0; i < _size; ++i)
+                for (int i = 0; i < Size; ++i)
                 {
                     if (comparer.Equals(_collection[i], dataItem)) return true;
                 }
@@ -547,7 +555,7 @@ namespace DataStructures.Lists
         /// <param name="searchMatch">Match predicate.</param>
         public int FindIndex(Predicate<T> searchMatch)
         {
-            return FindIndex(0, _size, searchMatch);
+            return FindIndex(0, Size, searchMatch);
         }
 
 
@@ -559,7 +567,7 @@ namespace DataStructures.Lists
         /// <param name="searchMatch">Match predicate.</param>
         public int FindIndex(int startIndex, Predicate<T> searchMatch)
         {
-            return FindIndex(startIndex, (_size - startIndex), searchMatch);
+            return FindIndex(startIndex, (Size - startIndex), searchMatch);
         }
 
 
@@ -573,13 +581,13 @@ namespace DataStructures.Lists
         public int FindIndex(int startIndex, int count, Predicate<T> searchMatch)
         {
             // Check bound of startIndex
-            if (startIndex < 0 || startIndex > _size)
+            if (startIndex < 0 || startIndex > Size)
             {
                 throw new IndexOutOfRangeException("Please pass a valid starting index.");
             }
 
             // CHeck the bounds of count and startIndex with respect to _size
-            if (count < 0 || startIndex > (_size - count))
+            if (count < 0 || startIndex > (Size - count))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -609,7 +617,7 @@ namespace DataStructures.Lists
         /// <param name="dataItem">Data item.</param>
         public int IndexOf(T dataItem)
         {
-            return IndexOf(dataItem, 0, _size);
+            return IndexOf(dataItem, 0, Size);
         }
 
 
@@ -621,7 +629,7 @@ namespace DataStructures.Lists
         /// <param name="startIndex">The starting index to search from.</param>
         public int IndexOf(T dataItem, int startIndex)
         {
-            return IndexOf(dataItem, startIndex, _size);
+            return IndexOf(dataItem, startIndex, Size);
         }
 
 
@@ -635,13 +643,13 @@ namespace DataStructures.Lists
         public int IndexOf(T dataItem, int startIndex, int count)
         {
             // Check the bound of the starting index.
-            if (startIndex < 0 || (uint)startIndex > (uint)_size)
+            if (startIndex < 0 || (uint)startIndex > (uint)Size)
             {
                 throw new IndexOutOfRangeException("Please pass a valid starting index.");
             }
 
             // Check the bounds of count and starting index with respect to _size.
-            if (count < 0 || startIndex > (_size - count))
+            if (count < 0 || startIndex > (Size - count))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -668,7 +676,7 @@ namespace DataStructures.Lists
             }
 
             // Begin searching, and return the matched element
-            for (int i = 0; i < _size; ++i)
+            for (int i = 0; i < Size; ++i)
             {
                 if (searchMatch(_collection[i]))
                 {
@@ -697,7 +705,7 @@ namespace DataStructures.Lists
             ArrayList<T> matchedElements = new ArrayList<T>();
 
             // Begin searching, and add the matched elements to the new list.
-            for (int i = 0; i < _size; ++i)
+            for (int i = 0; i < Size; ++i)
             {
                 if (searchMatch(_collection[i]))
                 {
@@ -719,13 +727,13 @@ namespace DataStructures.Lists
         public ArrayList<T> GetRange(int startIndex, int count)
         {
             // Handle the bound errors of startIndex
-            if (startIndex < 0 || (uint)startIndex > (uint)_size)
+            if (startIndex < 0 || (uint)startIndex > (uint)Size)
             {
                 throw new IndexOutOfRangeException("Please provide a valid starting index.");
             }
 
             // Handle the bound errors of count and startIndex with respect to _size
-            if (count < 0 || startIndex > (_size - count))
+            if (count < 0 || startIndex > (Size - count))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -736,7 +744,7 @@ namespace DataStructures.Lists
             Array.Copy(_collection, startIndex, newArrayList._collection, 0, count);
 
             // Assign count to the new list's inner _size counter.
-            newArrayList._size = count;
+            newArrayList.Size = count;
 
             return newArrayList;
         }
@@ -804,9 +812,7 @@ namespace DataStructures.Lists
             return listAsString;
         }
 
-
         /********************************************************************************/
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -820,6 +826,8 @@ namespace DataStructures.Lists
         {
             return this.GetEnumerator();
         }
+
+        #endregion
 
     }
 

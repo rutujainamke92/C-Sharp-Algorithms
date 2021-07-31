@@ -60,6 +60,36 @@ namespace DataStructures.Lists
         // The internal collection.
         private T[] Collection { get; set; }
 
+        /// <summary>
+        /// Returns count of elements in queue
+        /// </summary>
+        public int Count
+        {
+            get { return Size; }
+        }
+
+        /// <summary>
+        /// Checks whether the queue is empty.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get { return Size == 0; }
+        }
+
+        /// <summary>
+        /// Returns the top element in queue
+        /// </summary>
+        public T Top
+        {
+            get
+            {
+                if (IsEmpty)
+                    throw new Exception("Queue is empty.");
+
+                return Collection[HeadPointer];
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -108,36 +138,6 @@ namespace DataStructures.Lists
                         throw;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Returns count of elements in queue
-        /// </summary>
-        public int Count
-        {
-            get { return Size; }
-        }
-
-        /// <summary>
-        /// Checks whether the queue is empty.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get { return Size == 0; }
-        }
-
-        /// <summary>
-        /// Returns the top element in queue
-        /// </summary>
-        public T Top
-        {
-            get
-            {
-                if (IsEmpty)
-                    throw new Exception("Queue is empty.");
-
-                return Collection[HeadPointer];
             }
         }
 

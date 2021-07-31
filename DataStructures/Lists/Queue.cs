@@ -8,16 +8,8 @@ namespace DataStructures.Lists
     /// </summary>
     public class Queue<T> : IEnumerable<T> where T : IComparable<T>
     {
-        /// <summary>
-        /// INSTANCE VARIABLE.
-        /// </summary>
-        private int _size { get; set; }
-        private int _headPointer { get; set; }
-        private int _tailPointer { get; set; }
 
-        // The internal collection.
-        private T[] _collection { get; set; }
-        private const int _defaultCapacity = 8;
+        #region Fields
 
         // This sets the default maximum array length to refer to MAXIMUM_ARRAY_LENGTH_x64
         // Set the flag IsMaximumCapacityReached to false
@@ -29,6 +21,11 @@ namespace DataStructures.Lists
         public const int MAXIMUM_ARRAY_LENGTH_x64 = 0X7FEFFFFF; //x64
         public const int MAXIMUM_ARRAY_LENGTH_x86 = 0x8000000; //x86
 
+        private const int _defaultCapacity = 8;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// CONSTRUCTOR
@@ -48,6 +45,24 @@ namespace DataStructures.Lists
             _collection = new T[initialCapacity];
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// INSTANCE VARIABLE.
+        /// </summary>
+        private int _size { get; set; }
+
+        private int _headPointer { get; set; }
+        private int _tailPointer { get; set; }
+
+        // The internal collection.
+        private T[] _collection { get; set; }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Resize the internal array to a new size.
@@ -95,7 +110,6 @@ namespace DataStructures.Lists
                 }
             }
         }
-
 
         /// <summary>
         /// Returns count of elements in queue
@@ -229,9 +243,7 @@ namespace DataStructures.Lists
             return listAsString;
         }
 
-
         /********************************************************************************/
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -242,6 +254,8 @@ namespace DataStructures.Lists
         {
             return this.GetEnumerator();
         }
+
+        #endregion
 
     }
 

@@ -67,7 +67,7 @@ namespace DataStructures.Lists
         /// <summary>
         /// Resize the internal array to a new size.
         /// </summary>
-        private void _resize(int newSize)
+        private void Resize(int newSize)
         {
             if (newSize > Size && !IsMaximumCapacityReached)
             {
@@ -101,7 +101,7 @@ namespace DataStructures.Lists
                     if (DefaultMaxCapacityIsX64 == true)
                     {
                         DefaultMaxCapacityIsX64 = false;
-                        _resize(capacity);
+                        Resize(capacity);
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace DataStructures.Lists
             {
                 try
                 {
-                    _resize(Collection.Length * 2);
+                    Resize(Collection.Length * 2);
                 }
                 catch (OutOfMemoryException ex)
                 {
@@ -200,7 +200,7 @@ namespace DataStructures.Lists
                 var tail = Collection[TailPointer];
 
                 // Shrink
-                _resize((Collection.Length / 3) * 2);
+                Resize((Collection.Length / 3) * 2);
 
                 // Update head and tail pointers
                 HeadPointer = Array.IndexOf(Collection, head);

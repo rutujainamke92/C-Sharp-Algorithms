@@ -7,6 +7,8 @@ namespace DataStructures.Lists
 {
     /// <summary>
     /// The Singly-Linked List Node class
+    /// Usefull links
+    /// https://blog.balajeetm.com/blog/2017/02/26/tnut-reverse-linked-list-pocket/
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class SLinkedListNode<T> : IComparable<SLinkedListNode<T>> where T : IComparable<T>

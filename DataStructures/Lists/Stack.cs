@@ -129,6 +129,7 @@ namespace DataStructures.Lists
 
         public IEnumerator<T> GetEnumerator()
         {
+            //https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield
             for (int i = _collection.Count - 1; i >= 0; --i)
                 yield return _collection[i];
         }

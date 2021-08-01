@@ -794,12 +794,11 @@ namespace DataStructures.Lists
         /// <param name="addHeader">If set to <c>true</c> a header with count and Type is added; otherwise, only elements are printed.</param>
         public string ToHumanReadable(bool addHeader = false)
         {
-            int i = 0;
             string listAsString = string.Empty;
 
             string preLineIndent = (addHeader == false ? "" : "\t");
 
-            for (i = 0; i < Count; ++i)
+            for (int i = 0; i < Count; ++i)
             {
                 listAsString = String.Format("{0}{1}[{2}] => {3}\r\n", listAsString, preLineIndent, i, _collection[i]);
             }

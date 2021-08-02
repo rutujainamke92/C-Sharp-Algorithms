@@ -17,32 +17,16 @@ namespace DataStructures.Lists
     /// </summary>
     public class SkipList<T> : ICollection<T>, IEnumerable<T> where T : IComparable<T>
     {
-        private int _count { get; set; }
-        private int _currentMaxLevel { get; set; }
-        private Random _randomizer { get; set; }
 
-        // The skip-list root node
-        private SkipListNode<T> _firstNode { get; set; }
+        #region Fields
 
         // Readonly values
         private readonly int MaxLevel = 32;
         private readonly double Probability = 0.5;
 
+        #endregion
 
-        /// <summary>
-        /// Private helper. Used in Add method.
-        /// </summary>
-        /// <returns></returns>
-        private int _getNextLevel()
-        {
-            int lvl = 0;
-
-            while (_randomizer.NextDouble() < Probability && lvl <= _currentMaxLevel && lvl < MaxLevel)
-                ++lvl;
-
-            return lvl;
-        }
-
+        #region Constructors
 
         /// <summary>
         /// CONSTRUCTOR
@@ -58,6 +42,9 @@ namespace DataStructures.Lists
                 _firstNode.Forwards[i] = _firstNode;
         }
 
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Getter accessor for the first node
@@ -92,6 +79,25 @@ namespace DataStructures.Lists
         }
 
         /// <summary>
+        /// Checks whether this collection is readonly
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        private int _count { get; set; }
+        private int _currentMaxLevel { get; set; }
+        private Random _randomizer { get; set; }
+
+        // The skip-list root node
+        private SkipListNode<T> _firstNode { get; set; }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
         /// Access elements by index
         /// </summary>
         public T this[int index]
@@ -102,6 +108,10 @@ namespace DataStructures.Lists
                 throw new NotImplementedException();
             }
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds item to the list
@@ -122,7 +132,7 @@ namespace DataStructures.Lists
             current = current.Forwards[0];
 
             // Get the next node level, and update list level if required.
-            int lvl = _getNextLevel();
+            int lvl = GetNextLevel();
             if (lvl > _currentMaxLevel)
             {
                 for (int i = _currentMaxLevel; i < lvl; ++i)
@@ -294,7 +304,6 @@ namespace DataStructures.Lists
             return true;
         }
 
-
         #region IEnumerable<T> Implementation
         /// <summary>
         /// IEnumerable method implementation
@@ -318,15 +327,7 @@ namespace DataStructures.Lists
         }
         #endregion IEnumerable<T> Implementation
 
-
         #region ICollection<T> Implementation
-        /// <summary>
-        /// Checks whether this collection is readonly
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
 
         /// <summary>
         /// Copy this list to an array
@@ -366,6 +367,22 @@ namespace DataStructures.Lists
                 _firstNode.Forwards[i] = _firstNode;
         }
         #endregion
+
+        /// <summary>
+        /// Private helper. Used in Add method.
+        /// </summary>
+        /// <returns></returns>
+        private int GetNextLevel()
+        {
+            int lvl = 0;
+
+            while (_randomizer.NextDouble() < Probability && lvl <= _currentMaxLevel && lvl < MaxLevel)
+                ++lvl;
+
+            return lvl;
+        }
+
+        #endregion        
 
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LeetCode.Problems.Arrays
 {
@@ -66,6 +67,76 @@ namespace LeetCode.Problems.Arrays
                 map.Add(nums[i], i);            }
 
             return result;
+        }
+
+        /// <summary>
+        /// 7. Reverse Integer
+        /// Given a signed 32-bit integer x, return x with its digits reversed. 
+        /// If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static int ReverseInteger(int x)
+        {
+            int y = 0;
+
+            //if we negate -2,147,483,648  > 2,147,483,648 int will overflow
+            if (x == int.MinValue)
+                return 0;
+
+            bool isNegative = x < 0;
+
+            x= Math.Abs(x);
+
+            while(x > 0)
+            {
+                if (y > (int.MaxValue - (x % 10)) / 10) return 0;
+                y = (y * 10) + (x % 10);
+                x /= 10;
+            }
+
+            return isNegative ? -y : y;
+        }
+
+        /// <summary>
+        /// 7. Reverse Integer
+        /// Given a signed 32-bit integer x, return x with its digits reversed. 
+        /// If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static int ReverseInteger1(int x)
+        {        
+            string num = x.ToString();
+            char[] newNum = new char[num.Length];
+            int i = num.Length - 1;
+            int j = 0;
+            int start = 0;
+
+            if(num[0] == '-')
+            {
+                if (i >= 11) return 0;
+                newNum[0] = '-';
+                j++;
+                start++;
+            }
+
+            while (i >= start)
+            {
+                newNum[j] = num[i];
+                j++;
+                i--;
+            }
+
+            try
+            {
+                var str = new String(newNum);
+                return Convert.ToInt32(str);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
     }
 }

@@ -53,5 +53,7 @@ namespace UnitTest.LeetCode.Problems.Tests
             var reversedNumber = Arrays.ReverseInteger1(inputNumber);
             Assert.Equal<int>(expectedNumber, reversedNumber);
         }
+
+
     }
 }

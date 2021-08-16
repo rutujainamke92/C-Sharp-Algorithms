@@ -14,9 +14,16 @@
     <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\LeetCode.Problems\LeetCode.Problems.csproj" />
     <!--<ProjectReference Include="..\DataStructures\DataStructures.csproj" />-->
+    <ProjectReference Include="..\RutujaLeetCode\RutujaLeetCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Rutuja.LeetCode.Tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rutuja.LeetCode.Tests\" />
   </ItemGroup>
 </Project>

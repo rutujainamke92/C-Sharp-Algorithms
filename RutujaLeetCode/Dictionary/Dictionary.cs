@@ -35,11 +35,3 @@ namespace RutujaLeetCode.Dictionary
         }
     }
 }
-//foreach (var item in s) {
-//    foreach (var pair in d) {
-//        if (item.ToString () == pair.Key)
-//            ans = ans + pair.Value;
-//        Console.WriteLine (ans);
-
-//    }
-//}

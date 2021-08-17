@@ -1,5 +1,6 @@
 ﻿using RutujaLeetCode.Arrays;
 using RutujaLeetCode.Dictionary;
+using RutujaLeetCode.String;
 using Xunit;
 using System;
 namespace UnitTest.Rutuja.LeetCode.Tests
@@ -44,6 +45,12 @@ namespace UnitTest.Rutuja.LeetCode.Tests
 
         }
 
+        /// <summary>
+        ///https://leetcode.com/problems/palindrome-number/solution/
+        // Given an integer x, return true if x is palindrome integer.
+        //An integer is a palindrome when it reads the same backward as forward.For example, 121 is palindrome while 123 is not.
+        /// <param name="x"></param>
+        /// <returns></returns>
         [Theory]
         [InlineData ("LVIII", 58)]
         [InlineData ("IX", 9)]
@@ -55,5 +62,36 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             var result = Dictionary.RomanToInt(input);
             Assert.Equal (output, result);
         }
+
+        /// <summary>
+        ///https://leetcode.com/problems/palindrome-number/solution/
+        // Given an integer x, return true if x is palindrome integer.
+        //An integer is a palindrome when it reads the same backward as forward.For example, 121 is palindrome while 123 is not.
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [Fact]
+        public static void LargestCommonPrefix ()
+        {
+            string [] s = new string [] { "dog", "racecar", "car" };//{ "flower", "flow", "flight" };
+            string output = "";
+            var result = StringManipulation.LongestCommonPrefix (s);
+            Assert.Equal (output, result);
+        }
+
+        /// <summary>
+        ///https://leetcode.com/problems/palindrome-number/solution/
+        // Given an integer x, return true if x is palindrome integer.
+        //An integer is a palindrome when it reads the same backward as forward.For example, 121 is palindrome while 123 is not.
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [Fact]
+        public static void BuddyStrings ()
+        {
+            string s = "aaaaaaabc";
+            string goal = "aaaaaaacb";
+            var result = StringManipulation.BuddyString (s, goal);
+            Assert.True (result);
+        }
+
     }
 }

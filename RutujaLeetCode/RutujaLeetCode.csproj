@@ -8,10 +8,12 @@
     <None Remove="Arrays\" />
     <None Remove="QuickNavigation\" />
     <None Remove="Dictionary\" />
+    <None Remove="String\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrays\" />
     <Folder Include="QuickNavigation\" />
     <Folder Include="Dictionary\" />
+    <Folder Include="String\" />
   </ItemGroup>
 </Project>

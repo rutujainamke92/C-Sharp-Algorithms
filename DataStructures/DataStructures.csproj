@@ -5,7 +5,6 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Data\PrimesDocument_10K.csv">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

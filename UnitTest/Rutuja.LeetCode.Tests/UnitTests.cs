@@ -1,5 +1,6 @@
 ﻿using RutujaLeetCode.Arrays;
 using RutujaLeetCode.Dictionary;
+using RutujaLeetCode.HashSetProblem;
 using RutujaLeetCode.String;
 using Xunit;
 using System;
@@ -36,9 +37,9 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         [InlineData (120, false)]
         [InlineData (0, true)]
         [InlineData (12221, true)]
-        public static void  IsPalindrome (int inputNumber, bool expectedResult)
+        public static void IsPalindrome (int inputNumber, bool expectedResult)
         {
-       
+
 
             var result = Arrays.IsPalindrome (inputNumber);
             Assert.Equal (expectedResult, result);
@@ -54,12 +55,12 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         [Theory]
         [InlineData ("LVIII", 58)]
         [InlineData ("IX", 9)]
-        [InlineData ("MCMXCIV",1994)]   
+        [InlineData ("MCMXCIV", 1994)]
         public static void RomanToInteger (string input, int output)
         {
             //string s = "XII";
             //int ans = 12;
-            var result = Dictionary.RomanToInt(input);
+            var result = Dictionary.RomanToInt (input);
             Assert.Equal (output, result);
         }
 
@@ -89,8 +90,22 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         {
             string s = "aaaaaaabc";
             string goal = "aaaaaaacb";
-            var result = StringManipulation.BuddyString (s, goal);
+            var result = HashsetProblem.BuddyString (s, goal);
             Assert.True (result);
+        }
+
+        [Theory]
+        [InlineData ("([}}])", false)]
+        [InlineData ("()", true)]
+        [InlineData ("()[]{}", true)]
+        [InlineData ("(]", false)]
+        [InlineData ("([)]", false)]
+        [InlineData ("{[]}", true)]
+        [InlineData (")(){}", false)]
+        public static void ValidParanthesis (string s, bool output)
+        {
+            var result = StringManipulation.ValidParentheses (s);
+            Assert.Equal (result,output);
         }
 
     }

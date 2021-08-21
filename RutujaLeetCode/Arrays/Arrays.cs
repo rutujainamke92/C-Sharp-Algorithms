@@ -93,5 +93,36 @@ namespace RutujaLeetCode.Arrays
             else
                 return false;
         }
+
+        public static IList<bool> GreatestCandies (int [] nums, int extra)
+        {
+            LinkedListNode<int> abc;
+            LinkedList<int> anc = new LinkedList<int> ();
+            IList<bool> ans = new List<bool>();
+             Array.Sort<int> (nums);
+            int max = nums [nums.Length-1];
+
+            for (int i = 0; i < nums.Length; i++) {
+                if ( (nums [i] + extra >= max))
+                    ans.Add (true);
+                else
+                    ans.Add (false);
+            }
+            return ans;
+        }
+
+        public static int NumIdenticalPairs (int [] nums)
+        {
+            if (nums.Length == 0)
+                return 0;
+            int count = 0;
+           for(int i=0; i<nums.Length;i++) {
+                for(int j = i+1; j< nums.Length;j++) {
+                    if (nums [i] == nums [j])
+                        count++;
+                }
+            }
+           return count;
+        }
     }
 }

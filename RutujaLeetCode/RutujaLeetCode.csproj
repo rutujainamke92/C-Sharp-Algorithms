@@ -10,6 +10,7 @@
     <None Remove="Dictionary\" />
     <None Remove="HashSet\" />
     <None Remove="StacknDictionary\" />
+    <None Remove="LinkedListSums\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrays\" />
@@ -17,5 +18,6 @@
     <Folder Include="Dictionary\" />
     <Folder Include="HashSetProblem\" />
     <Folder Include="StacknDictionary\" />
+    <Folder Include="LinkedListSums\" />
   </ItemGroup>
 </Project>

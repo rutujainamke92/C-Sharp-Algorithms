@@ -2,6 +2,7 @@
 using RutujaLeetCode.Dictionary;
 using RutujaLeetCode.HashSetProblem;
 using RutujaLeetCode.String;
+using RutujaLeetCode.LinkedListSums;
 using Xunit;
 using System;
 namespace UnitTest.Rutuja.LeetCode.Tests
@@ -105,8 +106,48 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         public static void ValidParanthesis (string s, bool output)
         {
             var result = StringManipulation.ValidParentheses (s);
-            Assert.Equal (result,output);
+            Assert.Equal (result, output);
         }
 
+
+        [Fact]
+        //[InlineData ([1,1,2], 2)]
+        public static void DuplicatesFromSortedArray ()
+        {
+            int [] s = new int [] { 0,0,0,1,1,2};
+            int output=2; 
+            var result = HashsetProblem.Remove_Duplicates_from_Sorted_Array (s);
+            Assert.Equal (result, output);
+        }
+
+        [Fact]
+        //[InlineData ([1,1,2], 2)]
+        public static void GreatestCandies ()
+        {
+            int [] s = new int [] { 2, 3, 5, 1, 3 };
+            int extra = 3;
+            var result = Arrays.GreatestCandies (s, extra);
+           // Assert.Equal (result, );
+        }
+
+        [Fact]
+        public static void MergeLinkedList()
+        {
+            ListNode l1 = new ListNode (1);
+            Add (2);
+            Add (3);
+            void Add (int v)
+            {
+                ListNode curr = l1;
+                ListNode temp = new ListNode (v);
+                while (curr.next != null) {
+                    curr = curr.next;
+                }
+                curr.next = temp;
+            }
+
+            var result = LinkedListSums.MergeTwoLists (l1);
+
+        }
     }
 }

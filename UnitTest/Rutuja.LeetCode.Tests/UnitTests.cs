@@ -4,6 +4,7 @@ using RutujaLeetCode.HashSetProblem;
 using RutujaLeetCode.String;
 using RutujaLeetCode.LinkedListSums;
 using Xunit;
+using RutujaLeetCode.IntProblems;
 using System;
 namespace UnitTest.Rutuja.LeetCode.Tests
 {
@@ -146,8 +147,52 @@ namespace UnitTest.Rutuja.LeetCode.Tests
                 curr.next = temp;
             }
 
-            var result = LinkedListSums.MergeTwoLists (l1);
+            //var result = LinkedListSums.MergeTwoLists (l1);
 
         }
+
+        [Fact]
+        public static void CountPrimes ()
+        {
+
+            var result = NumberProblems.CountPrimes (100);
+            Assert.Equal (25, result);
+        }
+
+        [Fact]
+        public static void JwelesinStones ()
+        {
+
+            var result = NumberProblems.CountPrimes (100);
+            Assert.Equal (25, result);
+        }
+
+        [Fact]
+        public static void RemoveElement ()
+        {
+            int [] input = new int [] { 3, 3, 2, 3 };
+
+            var result = NumberProblems.RemoveElement (input, 3);
+            Assert.Equal (1, result);
+        }
+
+        [Fact]
+        public static void FindSubstring ()
+        {
+            string haystack = "haha";
+            string needle = "a";
+            var result = StringManipulation.strStrFindSubstring (haystack, needle);
+            Assert.Equal (1, result);
+        }
+
+        [Fact]
+        public static void ParkingSystem ()
+        {
+            string haystack = "haha";
+            string needle = "a";
+            var result = StringManipulation.strStrFindSubstring (haystack, needle);
+            Assert.Equal (1, result);
+        }
+
     }
 }

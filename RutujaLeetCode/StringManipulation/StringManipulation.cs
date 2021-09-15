@@ -1,8 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RutujaLeetCode.String
 {
+    /// <summary>
+    /// https://leetcode.com/problems/design-parking-system/
+    /// </summary>
+    public class ParkingSystem
+    {
+        public int big;
+        public int medium;
+        public int small;
+        public ParkingSystem (int big, int medium, int small)
+        {
+            this.big = big;
+            this.medium = medium;
+            this.small = small;
+        }
+
+        public bool AddCar (int carType)
+        {
+            if (carType == 3 && big > 0) {
+                big--;
+                return true;
+            }
+            if (carType == 2 && medium > 0) {
+                medium--;
+                return true;
+            }
+            if (carType == 1 && small > 0) {
+                small--;
+                return true;
+            }
+
+            return false;
+        }
+
+
+    }
+
     public class StringManipulation
     {
         /// <summary>
@@ -130,53 +167,91 @@ namespace RutujaLeetCode.String
         public bool CanBeIncreasing (int [] nums)
         {
             int count = 0;
-            for (int i = 0; i < nums.Length-1; i++) {
+            for (int i = 0; i < nums.Length - 1; i++) {
                 if (nums [i + 1] > nums [i])
                     continue;
                 else
-                    if (count == 0 ) {
-                     count++;
-                    if(nums[i-2]>=nums[i]) {
+                    if (count == 0) {
+                    count++;
+                    if (nums [i - 2] >= nums [i]) {
                         nums [i] = nums [i + 1];
                     }
-                }
-                else
+                } else
                     return false;
             }
             return true;
         }
-    }
-    /// <summary>
-    /// https://leetcode.com/problems/design-parking-system/
-    /// </summary>
-    public class ParkingSystem
-    {
-        public int big;
-        public int medium;
-        public int small;
-        public ParkingSystem (int big, int medium, int small)
+
+        /// <summary>
+        /// https://leetcode.com/problems/shuffle-string/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="indices"></param>
+        /// <returns></returns>
+        public static string ShuffleString (string s, int [] indices)
         {
-            this.big = big;
-            this.medium = medium;
-            this.small = small;
+            //Need string builder because we cannot 
+            char [] t = new char [s.Length];
+            //  StringBuilder sb = new StringBuilder ("", address.Length);
+
+            for (int i = 0; i < indices.Length; i++) {
+                t [indices [i]] = s [i];
+            }
+            return new string (t);
         }
 
-        public bool AddCar (int carType)
+        /// <summary>
+        /// https://leetcode.com/problems/length-of-last-word/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static int LengthOfLastWord (string s)
         {
-            if(carType==3 && big>0) {
-                big--;
-                return true;
+            int counter = 0;
+            // We are looking for the last word so let's go backward
+            for (int i = s.Length - 1; i > -1; i--) {
+                // a letter is found so count that letter
+                if (s [i] != ' ') counter++;
+
+                else if (counter > 0) //we found first space before a actual word
+                    return counter;
             }
-            if (carType == 2 && medium > 0) {
-                medium--;
-                return true;
-            }
-            if (carType == 1 && small > 0) {
-                small--;
-                return true;
+            return counter;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/maximum-repeating-substring/
+        /// </summary>
+        /// <param name="sequence"></param>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static int MaxRepeating (string sequence, string word)
+        {
+            int count = 0; int j = 0;
+           int i=0;
+
+            while(i < sequence.Length) {
+                //if word matches sequence
+                if (word [j] == sequence [i]) {
+                    j++;
+                    i++;
+                }
+                //else reset j of words pointer
+                else if (j > 0) {
+                    j = 0;
+                } else {
+                    i++;
+                }
+                //if word lenght , reset j
+                if (j == word.Length) {
+                    count++;
+                    j = 0;
+                }
+                
             }
 
-            return false;
+            return count;
         }
     }
+
 }

@@ -115,8 +115,8 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         //[InlineData ([1,1,2], 2)]
         public static void DuplicatesFromSortedArray ()
         {
-            int [] s = new int [] { 0,0,0,1,1,2};
-            int output=2; 
+            int [] s = new int [] { 0, 0, 0, 1, 1, 2 };
+            int output = 2;
             var result = HashsetProblem.Remove_Duplicates_from_Sorted_Array (s);
             Assert.Equal (result, output);
         }
@@ -128,11 +128,11 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             int [] s = new int [] { 2, 3, 5, 1, 3 };
             int extra = 3;
             var result = Arrays.GreatestCandies (s, extra);
-           // Assert.Equal (result, );
+            // Assert.Equal (result, );
         }
 
         [Fact]
-        public static void MergeLinkedList()
+        public static void MergeLinkedList ()
         {
             ListNode l1 = new ListNode (1);
             Add (2);
@@ -194,5 +194,109 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             Assert.Equal (1, result);
         }
 
+        [Fact]
+        public static void CanBeIncreasing ()
+        {
+            int [] input = new int [] { 2, 3, 1, 2 };
+            var res = NumberProblems.CanBeIncreasing (input);
+            Assert.True (res);
+        }
+
+        [Theory]
+        [InlineData (new int [] {1}, 0, 0)]
+        //[InlineData (new int [] { 1, 3, 5, 6 }, 1, 0)]
+        //[InlineData (new int [] { 1, 3, 5, 6 }, 3, 1)]
+        //[InlineData (new int [] { 1, 3, 5, 6 }, 6, 3)]
+        //[InlineData (new int [] { 1, 3, 5, 6 }, 2, 0)]
+        //[InlineData (new int [] { 1, 3, 5, 6 }, 7, 0)]
+                                      
+        public static void SearchInsert (int [] nums, int target, int output)
+        {
+            var result = NumberProblems.SearchInsert (nums, target);
+            Assert.Equal (result, output);
+        }
+
+        [Fact]
+
+        public static void SearchInsert1 ()
+        {
+            int [] input = new int [] { 1, 3, 5, 6 };
+            var result = NumberProblems.SearchInsert (input, 6);
+            Assert.Equal(3, result);
+        }
+
+
+        [Fact]
+
+        public static void ShuffleString ()
+        {
+           string s = "codeleet";
+           int [] indices = new int[] { 4, 5, 6, 7, 0, 2, 1, 3 };
+           var result = StringManipulation.ShuffleString(s, indices);
+            Assert.Equal ("leetcode", result);
+        }
+
+
+        [Fact]
+        public static void DecodeXORArray ()
+        {
+            int [] encoded = new int [] { 6, 2, 7, 3 };
+            int first = 4;
+            int [] output = new int [] { 4, 2, 0, 7, 4 };
+            var result = Arrays.DecodeXORArray (encoded, first);
+            Assert.Equal (output, result);
+        }
+
+        [Fact]
+        public static void ThridMax ()
+        {
+            int [] input = new int [] { 2,2,3,1 };
+            var result = Arrays.ThridMax (input);
+            Assert.Equal (1, result);
+        }
+
+        [Fact]
+        public static void LengthOfLastWord ()
+        {
+            string s = "Hello World  ";
+            var result = StringManipulation.LengthOfLastWord(s);
+            Assert.Equal (5, result);
+        }
+
+
+        [Fact]
+        public static void PlusOne ()
+        {
+            int [] input = new int [] {7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 6 };
+            int [] output = new int [] {7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 7};
+
+            var result = NumberProblems.PlusOne2(input);
+            Assert.Equal (output, result);
+        }
+
+        [Fact]
+        public static void SquareRoot ()
+        {
+            int x = 2147395600;
+            var result = NumberProblems.SquareRoot (x);
+            Assert.Equal (46340, result);
+        }
+
+        [Fact]
+        public static void MaxRepeating ()
+        {
+            string sequence = "aaabaaaabaaabaaaabaaaabaaaabaaaaba";
+            string word = "aaaba";
+            var result = StringManipulation.MaxRepeating (sequence, word);
+            Assert.Equal (3, result);
+        }
+
+        [Fact]
+        public static void NumberOfSteps ()
+        {
+            int num = 8;
+            var result = NumberProblems.NumberOfSteps( num);
+            Assert.Equal (4, result);
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace RutujaLeetCode.IntProblems
 {
     public class NumberProblems
@@ -233,17 +235,88 @@ namespace RutujaLeetCode.IntProblems
         public static int NumberOfSteps (int num)
         {
             int count = 0;
-            while(num!=0) {
-                if(num%2==0) {
+            while (num != 0) {
+                if (num % 2 == 0) {
                     num = num / 2;
                     count++;
-                }
-                else {
+                } else {
                     num = num - 1;
                     count++;
                 }
             }
             return count;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/decompress-run-length-encoded-list/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public static int [] DecompressRLElist (int [] nums)
+        {
+            int [] output; int n = 0;
+            if (nums.Length == 0) {
+                return new int [0];
+            }
+            for (int i = 0; i < nums.Length - 1; i = i + 2) {
+                n = n + nums [i];
+            }
+            if (n > 0)
+                output = new int [n];
+            else
+                output = new int [1];
+            int j; int k = 0;
+            for (int i = 0; i < nums.Length - 1; i = i + 2) {
+                j = 0;
+                while (j < nums [i]) {
+                    output [k] = nums [i + 1];
+                    k++; j++;
+                }
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/create-target-array-in-the-given-order/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static  int [] CreateTargetArray (int [] nums, int [] index)
+        {
+            int [] target = new int [nums.Length];
+            for(int i= 0;i<index.Length;i++) {
+                if(index[i]>=i) {
+                    target [index [i]] = nums [i];
+                } else
+                {
+                    for(int j = nums.Length-1;j>index[i];j--) {
+                        target [j] = target [j - 1];
+                    }
+                    target [index [i]] = nums [i];
+                }
+            }
+            return target;
+        }
+
+        ///https://leetcode.com/problems/perfect-number/
+        public static bool CheckPerfectNumber (int num)
+        {
+            if (num == 1)
+                return false;
+            int sum = 1;
+            //Please note brilliant idea, square root the number and loop until SQRT
+            //No numbers repeat until sqrt hence no check added.
+            //Else can use hashset to add each unique no and add them all in the end
+            int sqrt = (int)Math.Sqrt(num);
+            for (int i = 2; i <= sqrt; i++) {
+                if (num % i == 0) {
+                    sum = sum + i;
+                    sum = sum+ num / i;
+                }                
+            }
+
+            return sum == num;
         }
     }
 }

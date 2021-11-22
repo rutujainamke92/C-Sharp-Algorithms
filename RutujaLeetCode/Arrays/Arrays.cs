@@ -191,27 +191,25 @@ namespace RutujaLeetCode.Arrays
             long sec = long.MinValue;
             long third = long.MinValue;
             for (int i = 0; i < nums.Length; i++) {
-                    if (nums [i] == max || nums [i] == sec || nums [i] == third)
-                        continue;
+                if (nums [i] == max || nums [i] == sec || nums [i] == third)
+                    continue;
 
                 if (nums [i] > max) {
-                        third = sec;
-                        sec = max;
-                        max = nums [i];
-                    }
-                    else if(nums[i]>sec) {
-                        third = sec;
-                        sec = nums [i];
-                    }
-                    else if(nums[i]>third) {
-                        third = nums [i];
-                    }
+                    third = sec;
+                    sec = max;
+                    max = nums [i];
+                } else if (nums [i] > sec) {
+                    third = sec;
+                    sec = nums [i];
+                } else if (nums [i] > third) {
+                    third = nums [i];
                 }
-                //third = sec;
-                //sec = max;
-                if (third > long.MinValue    )
-                    return (int)third;
-                else return (int)max;
+            }
+            //third = sec;
+            //sec = max;
+            if (third > long.MinValue)
+                return (int)third;
+            else return (int)max;
         }
 
         /*Very IMP Microsoft, Amazon, LinkedIn*/
@@ -219,7 +217,7 @@ namespace RutujaLeetCode.Arrays
         /// https://leetcode.com/problems/maximum-subarray/
         /// </summary>
         /// <returns></returns>
-        public static int MaxSubArray(int [] nums)
+        public static int MaxSubArray (int [] nums)
         {
             //We can also do it using two for loops-->O(n^2)
             //And find easy sub array and compare max out of it. 
@@ -242,11 +240,197 @@ namespace RutujaLeetCode.Arrays
 
             int currSum = nums [0];
             int maxSum = nums [0];
-            for(int i = 1; i < nums.Length; i++) { 
-                currSum = Math.Max (currSum + nums[i], nums[i]);
+            for (int i = 1; i < nums.Length; i++) {
+                currSum = Math.Max (currSum + nums [i], nums [i]);
                 maxSum = Math.Max (currSum, maxSum);
             }
             return maxSum;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/find-pivot-index/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public static int PivotIndex (int [] nums)
+        {
+            int sumRight = 0, sumLeft = 0;
+            for (int i = 0; i < nums.Length; i++) {
+                sumRight = sumRight + nums [i];
+            }
+            if (sumRight - nums [0] == 0)
+                return 0;
+            sumRight = sumRight - nums [0];
+
+            for (int i = 1; i < nums.Length; i++) {
+                sumLeft = sumLeft + nums [i - 1];
+                sumRight = sumRight - nums [i];
+                if (sumLeft == sumRight)
+                    return i;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/contains-duplicate/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public static bool ContainsDuplicate (int [] nums)
+        {
+            HashSet<int> hash = new HashSet<int> ();
+            foreach (var item in nums) {
+                hash.Add (item);
+            }
+            if (hash.Count < nums.Length)
+                return true;
+            else return false;
+        }
+
+        public static bool ValidMountainArray (int [] arr)
+        {
+            if (arr.Length < 3)
+                return false;
+            int n = 0, current = arr [0];
+            bool flag1 = false, flag2 = false;
+            for (int i = 1; i < arr.Length; i++) {
+                if (current < arr [i]) {
+                    current = arr [i];
+                    n = i;
+                    flag1 = true;
+                } else break;
+            }
+
+            current = arr [n];
+            for (int i = n + 1; i < arr.Length; i++) {
+                if (current > arr [i]) {
+                    current = arr [i];
+                    flag2 = true;
+                    n = i;
+                } else break;
+            }
+
+            if (n == arr.Length - 1 && flag1 == true && flag2 == true)
+
+                return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/two-sum/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int [] TwoSum (int [] nums, int target)
+        {
+            //int a;
+            //for (int i = 0; i < nums.Length; i++) {
+            //    a = nums [i];
+            //    for (int j = 0; j < nums.Length; j++) {
+            //        if ((nums [j] == (target - a)) && i != j) {
+            //            return new int [] { i, j };
+            //        }
+            //    }
+            //}
+
+            Dictionary<int, int> dict = new Dictionary<int, int> ();
+            for (int i = 0; i < nums.Length; i++) {
+                if (!dict.ContainsKey (nums [i]))
+                    dict.Add (nums [i], i);
+            }
+
+            for (int i = 0; i < nums.Length; i++) {
+
+                if (dict.ContainsKey (target - nums [i])) {
+                    int a = 0;
+                    dict.TryGetValue (target - nums [i], out a);
+                    if (a != i)
+                        return new int [] { i, a };
+                }
+            }
+            return new int [] { 0, 0 };
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/merge-sorted-array/
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="m"></param>
+        /// <param name="nums2"></param>
+        /// <param name="n"></param>
+        /// I had to look for answer
+        public static void Merge (int [] nums1, int m, int [] nums2, int n)
+        {
+            //nums1 = [1,2,3,0,0,0] length= m+n
+            //nums2 = [2,5,6]
+            int j = n - 1;
+            int i = m - 1;
+            int final = m + n - 1;
+            while (i >= 0 && j >= 0) {
+                if (nums2 [j] > nums1 [i]) {
+                    nums1 [final] = nums2 [j];
+                    j--;
+                    final--;
+                } else {
+                    nums1 [final] = nums1 [i];
+                    i--;
+                    final--;
+                }
+            }
+            while (j >= 0) {
+                nums1 [final] = nums2 [j];
+                final--; j--;
+            }
+        }
+        /// <summary>
+        /// https://leetcode.com/problems/intersection-of-two-arrays-ii/
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <returns></returns>
+        public static int [] Intersect (int [] nums1, int [] nums2)
+        {
+            List<int> output = new List<int> ();
+            for (int i = 0; i < nums1.Length; i++) {
+                for (int j = 0; j < nums2.Length; j++) {
+                    if (nums2 [j] == nums1 [i] && nums1 [i] > -1) {
+                        output.Add (nums1 [i]);
+                        nums2 [j] = -1;
+                        nums1 [i] = -1;
+                        j++;
+                    }
+                }
+            }
+
+            return (int [])output.ToArray ();
+        }
+
+        /// <summary>
+        ///https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <returns></returns>
+        public static int MaxProfit (int [] prices)
+        {
+            ///Had to look for code.
+            int maxProfit = 0;
+            int min = prices [0];
+
+            for (int i = 1; i<prices.Length;i++) {
+                if(prices[i]< min) {
+                    min = prices [i];
+                   
+                } 
+                    if(prices[i]-min > maxProfit) {
+                        maxProfit = prices [i] - min;
+                    }
+                
+
+            }
+            return maxProfit;
+
         }
     }
 }

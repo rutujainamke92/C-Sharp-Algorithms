@@ -5,7 +5,11 @@ using RutujaLeetCode.String;
 using RutujaLeetCode.LinkedListSums;
 using Xunit;
 using RutujaLeetCode.IntProblems;
+using RutujaLeetCode.Graphs;
 using System;
+using System.Collections.Generic;
+using RutujaLeetCode.Tree;
+
 namespace UnitTest.Rutuja.LeetCode.Tests
 {
     public class UnitTests
@@ -203,13 +207,13 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         }
 
         [Theory]
-        [InlineData (new int [] {1}, 0, 0)]
+        [InlineData (new int [] { 1 }, 0, 0)]
         //[InlineData (new int [] { 1, 3, 5, 6 }, 1, 0)]
         //[InlineData (new int [] { 1, 3, 5, 6 }, 3, 1)]
         //[InlineData (new int [] { 1, 3, 5, 6 }, 6, 3)]
         //[InlineData (new int [] { 1, 3, 5, 6 }, 2, 0)]
         //[InlineData (new int [] { 1, 3, 5, 6 }, 7, 0)]
-                                      
+
         public static void SearchInsert (int [] nums, int target, int output)
         {
             var result = NumberProblems.SearchInsert (nums, target);
@@ -222,7 +226,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         {
             int [] input = new int [] { 1, 3, 5, 6 };
             var result = NumberProblems.SearchInsert (input, 6);
-            Assert.Equal(3, result);
+            Assert.Equal (3, result);
         }
 
 
@@ -230,9 +234,9 @@ namespace UnitTest.Rutuja.LeetCode.Tests
 
         public static void ShuffleString ()
         {
-           string s = "codeleet";
-           int [] indices = new int[] { 4, 5, 6, 7, 0, 2, 1, 3 };
-           var result = StringManipulation.ShuffleString(s, indices);
+            string s = "codeleet";
+            int [] indices = new int [] { 4, 5, 6, 7, 0, 2, 1, 3 };
+            var result = StringManipulation.ShuffleString (s, indices);
             Assert.Equal ("leetcode", result);
         }
 
@@ -250,7 +254,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         [Fact]
         public static void ThridMax ()
         {
-            int [] input = new int [] { 2,2,3,1 };
+            int [] input = new int [] { 2, 2, 3, 1 };
             var result = Arrays.ThridMax (input);
             Assert.Equal (1, result);
         }
@@ -259,7 +263,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         public static void LengthOfLastWord ()
         {
             string s = "Hello World  ";
-            var result = StringManipulation.LengthOfLastWord(s);
+            var result = StringManipulation.LengthOfLastWord (s);
             Assert.Equal (5, result);
         }
 
@@ -267,10 +271,10 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         [Fact]
         public static void PlusOne ()
         {
-            int [] input = new int [] {7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 6 };
-            int [] output = new int [] {7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 7};
+            int [] input = new int [] { 7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 6 };
+            int [] output = new int [] { 7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 7 };
 
-            var result = NumberProblems.PlusOne2(input);
+            var result = NumberProblems.PlusOne2 (input);
             Assert.Equal (output, result);
         }
 
@@ -288,15 +292,192 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             string sequence = "aaabaaaabaaabaaaabaaaabaaaabaaaaba";
             string word = "aaaba";
             var result = StringManipulation.MaxRepeating (sequence, word);
-            Assert.Equal (3, result);
+            Assert.Equal (5, result);
         }
 
         [Fact]
         public static void NumberOfSteps ()
         {
             int num = 8;
-            var result = NumberProblems.NumberOfSteps( num);
+            var result = NumberProblems.NumberOfSteps (num);
             Assert.Equal (4, result);
         }
+
+        [Fact]
+        public static void DecompressRLElist ()
+        {
+            int [] num = new int [] { 1, 2, 3, 4 };
+            var result = NumberProblems.DecompressRLElist (num);
+            Assert.Equal (new int [] { 2, 4, 4, 4 }, result);
+        }
+
+        [Fact]
+        public static void CreateTargetArray ()
+        {
+            int [] nums = new int [] { 0, 1, 2, 3, 4 };
+            int [] index = new int []
+                { 0, 1, 2, 2, 1};
+            var result = NumberProblems.CreateTargetArray (nums, index);
+            Assert.Equal (new int [] { 0, 4, 1, 3, 2 }, result);
+        }
+
+
+        [Fact]
+        public static void CountMatches ()
+        {
+            List<List<string>> items = new List<List<string>> ();
+            for (int i = 0; i < 3; i++) {
+                List<string> Data = new List<string> ();
+                Data.Add ("phone ");
+                Data.Add ("blue ");
+                Data.Add ("pixel ");
+                items.Add (Data);
+            }
+            var result = StringManipulation.CountMatches (items, "color", "blue");
+            Assert.Equal (0, result);
+        }
+
+        [Fact]
+        public static void CanPlaceFlowers ()
+        {
+            int [] flowerbed = new int [] { 1, 0, 0, 0, 1 };
+            int n = 2;
+            var result = StringManipulation.CanPlaceFlowers (flowerbed, n);
+            Assert.True (result);
+        }
+
+        [Fact]
+        public static void CheckPerfectNumber ()
+        {
+            int n = 28;
+            var result = NumberProblems.CheckPerfectNumber (n);
+            Assert.Equal (true, result);
+        }
+
+        [Fact]
+        public static void FirstUniqueChar ()
+        {
+            string s = "aabb";
+            var result = StringManipulation.FirstUniqChar (s);
+            Assert.Equal (2, result);
+        }
+
+        [Fact]
+        public static void FindCenter ()
+        {
+            //VV IMP how to declare 2D array.
+            int [] [] edges = {
+                            new int[2]{1,2},
+                            new int[2]{3,2},
+                            new int[2]{2,4},
+                           };
+
+            var result = GraphProblems.FindCenter (edges);
+            Assert.Equal (2, result);
+        }
+
+        [Fact]
+        public static void SortSentence ()
+        {
+            string str = "sentence4 a3 is2 This1";
+            var result = StringManipulation.SortSentence (str);
+            Assert.Equal ("This is a sentence", result);
+        }
+
+
+        [Fact]
+        public static void SquareIsWhite ()
+        {
+            string coordinates = "a2";
+            var result = StringManipulation.SquareIsWhite (coordinates);
+            Assert.Equal (true, result);
+        }
+
+        [Fact]
+        public static void PivotIndex ()
+        {
+            int [] nums = new int [] { 1, 7, 3, 6, 5, 6 };
+            var result = Arrays.PivotIndex (nums);
+            Assert.Equal (3, result);
+        }
+
+        [Fact]
+        public static void ValidMountainArray ()
+        {
+            int [] nums = new int [] { 1, 3, 2 };
+            var result = Arrays.ValidMountainArray (nums);
+            Assert.Equal (true, result);
+        }
+
+        [Fact]
+        public static void TwoSum ()
+        {
+            int [] nums = new int [] { 3, 3 };
+            int target = 6;
+            var result = Arrays.TwoSum (nums, target);
+            Assert.Equal (new int [] { 1, 2 }, result);
+        }
+
+
+        [Fact]
+        public static void Intersect ()
+        {
+            int [] nums1 = new int [] { 1, 2, 3, 3 };
+            int [] nums2 = new int [] { 3, 3 };
+            var result = Arrays.Intersect (nums1, nums2);
+            Assert.Equal (new int [] { 3, 3 }, result);
+        }
+
+        [Fact]
+        public static void MaxProfit ()
+        {
+            int [] nums1 = new int [] { 2, 4, 1 };
+            var result = Arrays.MaxProfit (nums1);
+            Assert.Equal (5, result);
+        }
+
+        [Fact]
+        public static void CallInsertVal ()
+        {
+            LearningTreeDS createTree = new LearningTreeDS ();
+            createTree.CreateTree ();
+        }
+
+        [Fact]
+        public static void GraphCallBFS ()
+        {
+            Graph g = new Graph (5);
+            g.mainMethod ();
+            Console.ReadKey ();
+
+        }
+
+        [Fact]
+        public static void FindJudge ()
+        {
+            //V imp Jagged Array! 
+            int [] [] trust = new int [] [] {
+                new int [] { 1, 2 },
+                new int [] { 1, 3 },
+                new int [] { 2, 1 },
+                new int [] { 2, 3 },
+                new int [] { 1, 4 },
+                new int [] { 4, 3 },
+                new int [] { 4, 1 }};
+            int n = 4;
+            GraphProblems g = new GraphProblems ();
+            var result = g.Findjudge (n, trust);
+            Assert.Equal (3, result);
+        }
+
+        [Fact]
+        public static void IsSymmetric ()
+        {
+            LearningTreeDS createTree = new LearningTreeDS ();
+
+            var result = createTree.IsSymmetric ();
+            Assert.True (result);
+        }
+
     }
 }

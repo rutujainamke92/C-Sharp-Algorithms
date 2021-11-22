@@ -227,10 +227,22 @@ namespace RutujaLeetCode.String
         /// <returns></returns>
         public static int MaxRepeating (string sequence, string word)
         {
-            int count = 0; int j = 0;
-           int i=0;
+            string w = word;
+            int count = 0;
+            while (true) {
+                if (sequence.Contains (w)) {
+                    w = w + word;
+                    count++;
+                } else return count;
+            }
+        }
 
-            while(i < sequence.Length) {
+        public static int MaxRepeating_WrittenByMe (string sequence, string word)
+        {
+            int count = 0; int j = 0;
+            int i = 0;
+
+            while (i < sequence.Length) {
                 //if word matches sequence
                 if (word [j] == sequence [i]) {
                     j++;
@@ -247,10 +259,198 @@ namespace RutujaLeetCode.String
                     count++;
                     j = 0;
                 }
-                
+
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/goal-parser-interpretation/
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public string Interpret (string command)
+        {
+            StringBuilder sb = new StringBuilder ();
+            for (int i = 0; i < command.Length; i++) {
+                if (command [i] == '(' && command [i + 1] == 'a') {
+                    sb.Append ("al");
+                    i = i + 3;
+                } else
+               if (command [i] == '(' && command [i + 1] == ')') {
+                    sb.Append ("o");
+                    i = i++;
+                } else
+                    if (command [i] == 'G')
+                    sb.Append ("G");
+
+            }
+            return sb.ToString ();
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/count-items-matching-a-rule/
+        /// </summary>
+        /// <param name="items"></param>
+        /// <param name="ruleKey"></param>
+        /// <param name="ruleValue"></param>
+        /// <returns></returns>
+        public static int CountMatches (List<List<string>> items, string ruleKey, string ruleValue)
+        {
+            int count = 0;
+            foreach (var item in items) {
+                if ((ruleKey == "type" && item [0] == ruleValue) ||
+                     (ruleKey == "color" && item [1] == ruleValue) ||
+                     (ruleKey == "name" && item [2] == ruleValue)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/can-place-flowers/
+        /// </summary>
+        /// <param name="flowerbed"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static bool CanPlaceFlowers (int [] flowerbed, int n)
+        {
+            int count = 0;
+            for (int i = 0; i < flowerbed.Length; i++) {
+                var previous = (i == 0) || (flowerbed [i - 1] == 0);
+                var next = (i == flowerbed.Length - 1) || (flowerbed [i + 1] == 0);
+                if (flowerbed [i] == 0 && previous && next) {
+                    count++;
+                    i++;
+                }
+
+            }
+            if (count >= n)
+                return true;
+            else return false;
+        }
+
+        //https://leetcode.com/problems/second-highest-salary/
+        ///Write a SQL query to get the second highest salary from the Employee table.
+        // S
+        // Q
+        // L
+
+        //https://leetcode.com/problems/split-a-string-in-balanced-strings/
+        public static int BalancedStringSplit (string s)
+        {
+            int count = 0;
+            int incr = 0;
+            foreach (var i in s) {
+                if (i == 'R')
+                    incr--;
+                if (i == 'L')
+                    incr++;
+                if (incr == 0)
+                    count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/first-unique-character-in-a-string/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static int FirstUniqChar (string s)
+        {
+            char item = ' ';
+            int index = -1;
+
+            int count;
+
+            for (int i = 0; i < s.Length; i++) {
+                count = 0;
+                for (int j = 0; j < s.Length; j++) {
+
+                    if (s [j] == s [i] && i != j) {
+                        count++;
+                        break;
+                    }
+                }
+
+                if (count == 0) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/sorting-the-sentence/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string SortSentence (string s)
+        {
+            int count = 0;
+            foreach (var ii in s) {
+                if (ii.ToString () == " ")
+                    count++;
+            }
+            string [] output = new string [count + 1];
+            string [] strs = s.Split (" ");
+
+            foreach (var item in strs) {
+                char c = item [item.Length - 1];
+                int index = (int)char.GetNumericValue (c);
+                output [index - 1] = item.Remove (item.Length - 1, 1);
+            }
+
+            return string.Join (" ", output);
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/determine-color-of-a-chessboard-square/
+        /// </summary>
+        /// <param name="coordinates"></param>
+        /// <returns></returns>
+        public static bool SquareIsWhite (string coordinates)
+        {
+            //abcdefg- ASCII starts with 97
+
+            ///ABCDEFG - Ascii starts with 65
+            int firstVal = (int)coordinates [0];
+            firstVal -= 96;
+            char second = coordinates [1];
+            int secVal = (int)char.GetNumericValue (second);
+            if ((firstVal % 2 == 0 && secVal % 2 == 0) || (firstVal % 2 != 0 && secVal % 2 != 0))
+                return false;
+
+            else return true;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/generate-a-string-with-characters-that-have-odd-counts/
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static string GenerateTheString (int n)
+        {
+            string [] str = new string [n];
+            if (n % 2 != 0) {
+                for (int i = 0; i < n; i++) {
+                    str [i] = "a";
+                }
+            } else {
+                for (int i = 0; i < n-1; i++) {
+                    str [i] = "a";
+                }
+            }
+
+           
+            if (n %2 ==0) {
+                str [n-1] = "b";
+            }
+            return string.Join("",str);
         }
     }
 

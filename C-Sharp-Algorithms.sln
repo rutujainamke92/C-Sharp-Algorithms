@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCode.Problems", "LeetCode.Problems\LeetCode.Problems.csproj", "{3D8DBFF8-DD1F-44CF-B636-4B4935879894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinarySearchTreeDS", "BinarySearchTreeDS\BinarySearchTreeDS.csproj", "{D8247DDD-4C16-45A8-997B-A30B7C117665}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8247DDD-4C16-45A8-997B-A30B7C117665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8247DDD-4C16-45A8-997B-A30B7C117665}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8247DDD-4C16-45A8-997B-A30B7C117665}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8247DDD-4C16-45A8-997B-A30B7C117665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

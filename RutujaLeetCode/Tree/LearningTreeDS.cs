@@ -1,0 +1,290 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace RutujaLeetCode.Tree
+{
+    // Definition for a binary tree node.
+    public class Node
+    {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node (int val = 0)
+        {
+            this.val = val;
+        }
+        //public Node root = new Node ();
+
+        public void InsertVal (Node root, int insert)
+        {
+            if (root == null) {
+                root.val = insert;
+            } else {
+                InserNode2 (root, insert);
+            }
+        }
+        public void InserNode2 (Node givenNode, int insert)
+        {
+            if (insert <= givenNode.val) {
+                if (givenNode.left == null)
+                    givenNode.left.val = insert;
+                else
+                    InserNode2 (givenNode.left, insert);
+            }
+
+            if (insert >= givenNode.val) {
+                if (givenNode.right == null)
+                    givenNode.right.val = insert;
+                else
+                    InserNode2 (givenNode.right, insert);
+            }
+        }
+
+        public Node insertDFS (int [] keys)
+        {
+            Node root = new Node ();
+            foreach (int key in keys) {
+                InserNode2 (root, key);
+            }
+            return root;
+        }
+
+        //Inorder
+        public void DisplayTree (Node root)
+        {
+            if (root == null) return;
+
+            DisplayTree (root.left);
+            System.Console.Write (root.val + " ");
+            DisplayTree (root.right);
+        }
+
+
+        // Function to check the given key exist or not
+        static bool iterativeSearch (Node root, int key)
+        {
+            // Traverse until root reaches to dead end
+            while (root != null) {
+                // pass right subtree as new tree
+                if (key > root.val)
+                    root = root.right;
+
+                // pass left subtree as new tree
+                else if (key < root.val)
+                    root = root.left;
+                else
+                    return true; // if the key is found return 1
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Leetcode --> https://leetcode.com/problems/maximum-depth-of-binary-tree/
+        /// ASKED BY GOOGLEE, AMAZON, APPLE, LINKEDIN, YAHOO
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static int MaxDepth (Node root)
+        {
+            int dist = 0;
+            while (root != null) {
+                if (root.left == null && root.right == null) {
+                    dist++;
+                    continue;
+                }
+
+                if (root.left != null)
+                    root = root.left;
+
+                else root = root.right;
+            }
+            return dist;
+        }
+
+        /// <summary>
+        /// LeetCode--> https://leetcode.com/problems/same-tree/
+        /// </summary>
+        public bool IsSameTree (Node p, Node q)
+        {
+            List<int> treeA = new List<int> ();
+            List<int> treeB = new List<int> ();
+            preOrderStore (p, treeA);
+            preOrderStore (q, treeB);
+            bool ans = true;
+            if (treeA.Count == treeB.Count) {
+                for (int i = 0; i < treeA.Count; i++) {
+                    if (treeA [i] == treeB [i])
+                        continue;
+                    else
+                        return false;
+                }
+            } else return false;
+            return ans;
+        }
+
+        public void preOrderStore (Node root, List<int> ans)
+        {
+            if (root == null) {
+                ans.Add (0);
+                return;
+            }
+            ans.Add (root.val);
+            preOrderStore (root.left, ans);
+            preOrderStore (root.right, ans);
+        }
+
+        public void postOrderStore (Node root, List<int> ans)
+        {
+            if (root == null) {
+                ans.Add (0);
+                return;
+            }
+
+            preOrderStore (root.left, ans);
+            preOrderStore (root.right, ans);
+            ans.Add (root.val);
+
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/symmetric-tree/
+        /// </summary>
+        /// <param name="root"></param>
+
+
+        public bool IsSymmetric (Node root)
+        {
+            List<int> treeA = new List<int> ();
+            List<int> treeB = new List<int> ();
+
+
+            if (root.left == null && root.right == null)
+                return true;
+
+            preOrderStore (root.left, treeA);
+            postOrderStore (root.right, treeB);
+
+            //Reverse Right Subtree
+            treeB.Reverse ();
+
+            if (treeA.Count == treeB.Count) {
+                for (int i = 0; i < treeA.Count; i++) {
+                    if (treeA [i] != treeB [i])
+                        return false;
+
+                }
+            } else return false;
+            return true;
+        }
+
+        //Algo Expert Probelm easy
+        /// <summary>
+        /// https://www.algoexpert.io/questions/Find%20Closest%20Value%20In%20BST
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int FindClosestValueInBst (Node tree, int target)
+        {
+            // Write your code here.
+            int ans = tree.val;
+            if (tree.val == target) {
+                return tree.val;
+            } else {
+                while (tree != null) {
+                    int difference = Math.Abs (ans - target);
+                    if (target < tree.val && tree.left != null) {
+                        tree = tree.left;
+                        int diff = Math.Abs (tree.val - target);
+                        if (difference > diff)
+                            ans = tree.val;
+                    } else if (target > tree.val && tree.right != null) {
+                        tree = tree.right;
+                        int diff = Math.Abs (tree.val - target);
+                        if (difference > diff)
+                            ans = tree.val;
+                    }
+                 //added this code
+                 //if value is equal to node.value for example target is 15
+                 //then just break and return valu
+                 else {
+                        break;
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+
+        //Tech delight practise
+        ///If two Trees are identitcal
+        /////Find levels of trees
+        ///if levels and number of nodes match then True else false
+        public static bool IsIdentical (Node x, Node y)
+        {
+            if (x == null && y == null)
+                return true;
+            return IsIdenticalPre (x, y);
+        }
+
+        public static bool IsIdenticalPre (Node x, Node y)
+        {
+            bool boolVal = true;
+            int first = x.val;
+            int sec = y.val;
+            if (x != null && y != null) {
+                if (first == sec) {
+                    IsIdenticalPre (x.left, y.left);
+                    IsIdenticalPre (x.right, y.right);
+
+                }
+            } else
+                boolVal = false;
+            return boolVal;
+        }
+
+        public static int FindLevelofTree (Node root, int level)
+        {
+            while (root != null && (root.left != null || root.right != null)) {
+                level++;
+                if (root.left != null)
+                    root = root.left;
+                else if (root.right != null)
+                    root = root.right;
+            }
+
+            return level;
+
+        }
+    }
+
+    public class LearningTreeDS
+    {
+        public bool IsSymmetric ()
+        {
+            Node n = new Node ();
+            int [] keys = { 1, 2, 2, 3, 4, 4, 3 };
+
+            var root = n.insertDFS (keys);
+            return n.IsSymmetric (root);
+
+            //n.DisplayTree (n);
+        }
+        public void CreateTree ()
+        {
+            Node n = new Node ();
+            n.InsertVal (n, 1);
+            n.InsertVal (n, 2);
+            n.InsertVal (n, 2);
+            n.InsertVal (n, 3);
+            n.InsertVal (n, 4);
+            n.InsertVal (n, 4);
+            n.InsertVal (n, 3);
+            n.DisplayTree (n);
+
+        }
+    }
+}
+
+//

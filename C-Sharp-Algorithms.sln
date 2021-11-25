@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{9D01ADEE-D944-4920-8DC4-BD5AC4D35BB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCode.Problems", "LeetCode.Problems\LeetCode.Problems.csproj", "{3D8DBFF8-DD1F-44CF-B636-4B4935879894}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCode.Problems", "LeetCode.Problems\LeetCode.Problems.csproj", "{854BFFEC-3FC6-471F-9AC1-7A5005090DBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{9D01ADEE-D944-4920-8DC4-BD5AC4D35BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D01ADEE-D944-4920-8DC4-BD5AC4D35BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D01ADEE-D944-4920-8DC4-BD5AC4D35BB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D8DBFF8-DD1F-44CF-B636-4B4935879894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{854BFFEC-3FC6-471F-9AC1-7A5005090DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{854BFFEC-3FC6-471F-9AC1-7A5005090DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{854BFFEC-3FC6-471F-9AC1-7A5005090DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{854BFFEC-3FC6-471F-9AC1-7A5005090DBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

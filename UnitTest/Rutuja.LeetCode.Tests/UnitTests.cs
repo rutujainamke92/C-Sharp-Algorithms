@@ -13,7 +13,7 @@ using RutujaLeetCode.Tree;
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
 //TODO : test commit
-//TODO : for source tree//Sample changes
+//TODO : for source tree//Sample changes    
 namespace UnitTest.Rutuja.LeetCode.Tests
 {
     public class UnitTests
@@ -440,12 +440,12 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             Assert.Equal (5, result);
         }
 
-        [Fact]
-        public static void CallInsertVal ()
-        {
-            LearningTreeDS createTree = new LearningTreeDS ();
-            createTree.CreateTree ();
-        }
+        //[Fact]
+        //public static void CallInsertVal ()
+        //{
+        //    LearningTreeDS createTree = new LearningTreeDS ();
+        //    createTree.CreateTree ();
+        //}
 
         [Fact]
         public static void GraphCallBFS ()
@@ -473,15 +473,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             var result = g.Findjudge (n, trust);
             Assert.Equal (3, result);
         }
-
-        [Fact]
-        public static void IsSymmetric ()
-        {
-            LearningTreeDS createTree = new LearningTreeDS ();
-
-            var result = createTree.IsSymmetric ();
-            Assert.True (result);
-        }
+       
 
     }
 }

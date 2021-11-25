@@ -4,16 +4,79 @@ using System.Collections.Generic;
 namespace RutujaLeetCode.Tree
 {
     // Definition for a binary tree node.
-    public class Node
+    public class LearningTree
     {
-        public int val;
-        public Node left;
-        public Node right;
-        public Node (int val = 0)
+        public class Node
         {
-            this.val = val;
+            public int val;
+            public Node left;
+            public Node right;
+            public Node (int val = 0)
+            {
+                this.val = val;
+            }
         }
         //public Node root = new Node ();
+        static Node root = null;
+
+        static List<Node> q = new List<Node> ();
+
+        // Function to create a node
+        // with 'value' as the data
+        // stored in it.
+        // Both the children of this
+        // new Node are initially null.
+        public static Node newNode (int value)
+        {
+            Node n = new Node ();
+            n.val = value;
+            n.left = null;
+            n.right = null;
+            return n;
+        }
+
+        public static void insertValue (int value)
+        {
+            Node node = newNode (value);
+            if (root == null)
+                root = node;
+
+            // The left child of the
+            // current Node is used
+            // if it is available.
+            else if (q [0].left == null)
+                q [0].left = node;
+
+            // The right child of the current
+            // Node is used if it is available.
+            // Since the left child of this
+            // node has already been used, the
+            // Node is popped from the queue
+            // after using its right child.
+            else {
+                q [0].right = node;
+                q.RemoveAt (0);
+            }
+
+            // Whenever a new Node is added
+            // to the tree, its address is
+            // pushed into the queue. So that
+            // its children Nodes can be used
+            // later.
+            q.Add (node);
+
+        }
+
+        // This function mainly calls
+        // insertValue() for all array
+        // elements. All calls use same
+        // queue.
+        public static Node createTree (int [] arr, int n)
+        {
+            for (int i = 0; i < n; i++)
+                insertValue (arr [i]);
+            return root;
+        }
 
         public void InsertVal (Node root, int insert)
         {
@@ -44,9 +107,23 @@ namespace RutujaLeetCode.Tree
         {
             Node root = new Node ();
             foreach (int key in keys) {
-                InserNode2 (root, key);
+                InsertDfs (root, key);
             }
             return root;
+        }
+        public void InsertDfs (Node node, int val)
+        {
+            if (node.val > val) {
+                if (node.left == null)
+                    node.left = new Node (val);
+                else
+                    InsertDfs (node.left, val);
+            } else {
+                if (node.right == null)
+                    node.right = new Node (val);
+                else
+                    InsertDfs (node.right, val);
+            }
         }
 
         //Inorder
@@ -140,18 +217,56 @@ namespace RutujaLeetCode.Tree
                 return;
             }
 
-            preOrderStore (root.left, ans);
-            preOrderStore (root.right, ans);
+            postOrderStore (root.left, ans);
+            postOrderStore (root.right, ans);
             ans.Add (root.val);
 
+        }
+
+
+        /// <summary>
+        /// https://leetcode.com/problems/binary-tree-level-order-traversal/
+        /// MEDIUM PROBLEM
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public IList<IList<int>> LevelOrder (Node node)
+        {
+            IList<IList<int>> result = new List<IList<int>> ();
+            Queue<Node> q = new Queue<Node> ();
+            if (node == null) {
+                return result;
+            }
+
+            q.Enqueue (node);
+
+            while (q.Count > 0) {
+                int size = q.Count;
+                IList<int> preOrderTraversal = new List<int> ();
+                while (size != 0) {
+                    var current = q.Dequeue ();
+
+                    preOrderTraversal.Add (current.val);
+
+                    if (current.left != null) {
+                        q.Enqueue (current.left);
+                    }
+
+                    if (current.right != null) {
+                        q.Enqueue (current.right);
+                    }
+                    size--;
+
+                }
+                result.Add (preOrderTraversal);
+            }
+            return result;
         }
 
         /// <summary>
         /// https://leetcode.com/problems/symmetric-tree/
         /// </summary>
         /// <param name="root"></param>
-
-
         public bool IsSymmetric (Node root)
         {
             List<int> treeA = new List<int> ();
@@ -257,34 +372,30 @@ namespace RutujaLeetCode.Tree
             return level;
 
         }
-    }
 
-    public class LearningTreeDS
-    {
-        public bool IsSymmetric ()
+        public Node insertIntoBST (Node root, int val)
         {
-            Node n = new Node ();
-            int [] keys = { 1, 2, 2, 3, 4, 4, 3 };
+            if (root == null)
+                return new Node (val);
 
-            var root = n.insertDFS (keys);
-            return n.IsSymmetric (root);
+            DFS (root, val);
 
-            //n.DisplayTree (n);
+            return root;
         }
-        public void CreateTree ()
-        {
-            Node n = new Node ();
-            n.InsertVal (n, 1);
-            n.InsertVal (n, 2);
-            n.InsertVal (n, 2);
-            n.InsertVal (n, 3);
-            n.InsertVal (n, 4);
-            n.InsertVal (n, 4);
-            n.InsertVal (n, 3);
-            n.DisplayTree (n);
 
+        private void DFS (Node node, int val)
+        {
+            if (node.val > val) {
+                if (node.left == null)
+                    node.left = new Node (val);
+                else
+                    DFS (node.left, val);
+            } else {
+                if (node.right == null)
+                    node.right = new Node (val);
+                else
+                    DFS (node.right, val);
+            }
         }
     }
 }
-
-//

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RutujaLeetCode.Tree
 {
@@ -78,7 +79,67 @@ namespace RutujaLeetCode.Tree
             return root;
         }
 
+        public static int HeightofTree (Node node)
+        {
+            int height = 0;
+            if (node == null)
+                return 0;
 
+
+            else {
+
+                Queue<Node> q = new Queue<Node> ();
+                q.Enqueue (node);
+
+                while (q.Count > 0) {
+                    int count = q.Count ();
+
+                    height++;
+
+                    while (count > 0) {
+                        Node current = q.Peek ();
+                        q.Dequeue ();
+                        if (current.left != null)
+                            q.Enqueue (current.left);
+                        if (current.right != null)
+                            q.Enqueue (current.right);
+
+                        count--;
+                    }
+                }
+
+
+            }
+            return height;
+        }
+
+
+        public int MinDepth (Node root)
+        {
+            if (root != null) {
+                return CalcMinDepth (root, 1);
+            } else
+                return 0;
+
+        }
+        public int CalcMinDepth (Node node, int height)
+        {
+            if (node == null)
+                return height;
+            else
+                return Math.Min (CalcMinDepth (node.left, 1 + height), CalcMinDepth (node.right, 1 + height));
+        }
+
+        public bool IsBalanced (Node root)
+        {
+            if (root == null || (root.right == null && root.left == null))
+                return true;
+
+            if (Math.Abs (HeightofTree (root.left) - HeightofTree (root.right)) > 1)
+                return false;
+            else
+                return IsBalanced (root.left) && IsBalanced (root.right);
+        }
     }
 
 }

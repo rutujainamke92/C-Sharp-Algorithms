@@ -473,7 +473,59 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             var result = g.Findjudge (n, trust);
             Assert.Equal (3, result);
         }
-       
 
+        [Fact]
+        public static void MinEatingSpeedn ()
+        {
+            int [] piles = new int [] { 312884470 };
+            int h = 312884470;
+
+            var result = Arrays.MinEatingSpeed (piles, h);
+            Assert.Equal (2, result);
+
+        }
+
+        [Fact]
+        public static void ValidPalindrome ()
+        {
+            string s = "abca";
+            var result = StringManipulation.ValidPalindrome2 (s);
+            Assert.True (result);
+        }
+
+        [Fact]
+        public static void CountBinarySubstrings ()
+        {
+            string s = "000111";
+            var result = StringManipulation.CountBinarySubstrings (s);
+            Assert.Equal (3, result);
+
+        }
+
+
+        [Fact]
+        public static void IsPalindromeString ()
+        {
+            string s = "A man, a plan, a canal: Panama";
+            var result = StringManipulation.IsPalindrome (s);
+            Assert.Equal (false, result);
+
+        }
+
+        [Fact]
+        public static void FourSun ()
+        {
+            //Arrange
+            int [] nums = { 2, 2, 2, 2 };
+            List<IList<int>> answer = new List<IList<int>> ();
+            answer.Add (new List<int> () { 2, 2, 2, 2 });
+
+            //Act
+            var result = Arrays.FourSum (nums, 8);
+
+            //Assert
+            Assert.Equal (answer, result);
+
+        }
     }
 }

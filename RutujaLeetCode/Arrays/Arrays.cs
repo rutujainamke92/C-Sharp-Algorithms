@@ -418,18 +418,129 @@ namespace RutujaLeetCode.Arrays
             int maxProfit = 0;
             int min = prices [0];
 
-            for (int i = 1; i<prices.Length;i++) {
-                if(prices[i]< min) {
+            for (int i = 1; i < prices.Length; i++) {
+                if (prices [i] < min) {
                     min = prices [i];
-                   
-                } 
-                    if(prices[i]-min > maxProfit) {
-                        maxProfit = prices [i] - min;
-                    }
-                
+
+                }
+                if (prices [i] - min > maxProfit) {
+                    maxProfit = prices [i] - min;
+                }
+
 
             }
             return maxProfit;
+
+        }
+
+        /// <summary>
+        /// TWO POINTER PROBLEMS
+        /// koko eating bananas
+        /// </summary>
+        /// <returns></returns>
+        public static int MinEatingSpeed (int [] piles, int h)
+        {
+
+            int right = int.MinValue, left = 1; int ans = 0;
+            for (int i = 0; i < piles.Length; i++) {
+                if (piles [i] > right)
+                    right = piles [i];
+            }
+            int mid = 0;
+            int kValue = 0;
+            while (right >= left) {
+                mid = left + (right - left) / 2;
+                kValue = 0;
+                for (int i = 0; i < piles.Length; i++) {
+                    kValue = kValue + (piles [i] / mid);
+                    if (piles [i] % mid > 0)
+                        kValue = kValue + 1;
+                }
+                if (kValue > h) {
+                    left = mid + 1;
+                } else if (kValue <= h) {
+                    ans = mid;
+                    right = mid - 1;
+                }
+
+            }
+            return ans;
+        }
+
+
+        /// <summary>
+        /// https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int [] TwoSumII (int [] numbers, int target)
+        {
+            int [] ans = new int [2];
+            for (int i = 0; i < numbers.Length; i++) {
+                var a = numbers [i];
+
+                for (int j = 0; j < numbers.Length && j != i; j++) {
+                    if (a + numbers [j] == target) {
+                        return new int [] { i + 1, j + 1 };
+                    }
+                }
+            }
+            return ans;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/4sum/solution/
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static IList<IList<int>> FourSum (int [] nums, int target)
+        {
+            IList<IList<int>> answer = new List<IList<int>> ();
+
+            if (nums.Length == 0 || nums == null)
+                return answer;
+            int n = nums.Length;
+            int left, right;
+            //First need to sort array
+            Array.Sort (nums);
+
+            //loop i, j, left and right
+            for (int i = 0; i < n; i++) {
+
+                if (i > 0 && nums [i] == nums [i - 1])
+                    continue;
+
+                for (int j = i + 1; j < n; j++) {
+
+                    if (j > i + 1 && nums [j] == nums [j - 1])
+                        continue;
+
+                    int twosum = target - (nums [i] + nums [j]);
+                    left = j + 1; right = n - 1;
+
+                    while (left < right) {
+                        if (nums [left] + nums [right] == twosum) {
+                            answer.Add (new List<int> () { nums [i], nums [j], nums [left], nums [right] });
+                            left++; right--;
+                        } else if (nums [left] + nums [right] < twosum)
+                            left++;
+                        else if (nums [left] + nums [right] > twosum)
+                            right--;
+
+                        //we want to skip the duplicate numbers
+                        if (right < n - 1)
+                            while (nums [right] == nums [right + 1] && right > left)
+                                right--;
+
+                        if (left > j + 1)
+                            while (nums [left] == nums [left - 1] && right > left)
+                                left++;
+                    }
+                }
+            }
+            return answer;
 
         }
     }

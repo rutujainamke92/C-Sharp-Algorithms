@@ -441,17 +441,117 @@ namespace RutujaLeetCode.String
                     str [i] = "a";
                 }
             } else {
-                for (int i = 0; i < n-1; i++) {
+                for (int i = 0; i < n - 1; i++) {
                     str [i] = "a";
                 }
             }
 
-           
-            if (n %2 ==0) {
-                str [n-1] = "b";
-            }
-            return string.Join("",str);
-        }
-    }
 
+            if (n % 2 == 0) {
+                str [n - 1] = "b";
+            }
+            return string.Join ("", str);
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/valid-palindrome-ii/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static bool ValidPalindrome2 (string s)
+        {
+            //string [] input = new string [s.Length];
+
+            //for(int i=0;i<s.Length;i++) {
+
+            //}
+            int left = 0; int right = s.Length - 1;
+            while (right >= left) {
+                if (s [left] == s [right]) {
+                    left++; right--;
+                    continue;
+                } else if (s [left] != s [right]) {
+                    return IsValid (s, left + 1, right) || IsValid (s, left, right - 1);
+                } else return false;
+            }
+            return true;
+        }
+
+        public static bool IsValid (string s, int start, int end)
+        {
+            while (start <= end) {
+                if (s [start] != s [end])
+                    return false;
+                start++; end--;
+            }
+            return true;
+        }
+
+        public static int CountBinarySubstrings (string s)
+        {
+            int [] groups = new int [s.Length];
+            int k = 0;
+            int result = 0;
+            groups [0] = 1;
+            for (int i = 0; i < s.Length - 1; i++) {
+                if (s [i] == s [i + 1]) {
+                    groups [k] = groups [k] + 1;
+                } else {
+                    k++;
+                    groups [k] = 1;
+                }
+            }
+            for (int i = 0; i < k; i++) {
+                result = result + Math.Min (groups [i], groups [i + 1]);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/valid-palindrome/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static bool IsPalindrome (string s)
+        {
+            if (s.Length == 1)
+                return true;
+            s = s.ToLower ();
+            List<char> ch = new List<char> ();
+
+            for (int i = 0; i < s.Length; i++) {
+                if (char.IsLetterOrDigit (s [i])) {
+                    ch.Add (s [i]);
+                } else
+                    continue;
+            }
+            //loop through whole ch, use 2 pointers, left and right values should match everytime
+            //then return true else false
+
+            for (int left = 0, right = ch.Count - 1; right >= left; left++, right--) {
+                if (ch [left] != ch [right])
+                    return false;
+            }
+
+            //Very goo way to do this..No need to user char.IsLetterorDigit or need to have
+            //Another ch array 
+            //while (i < j) {
+            //    while (i < j && (s [i] < 'a' || s [i] > 'z') && (s [i] < '0' || s [i] > '9'))
+            //        i++;
+
+            //    while (i < j && (s [j] < 'a' || s [j] > 'z') && (s [j] < '0' || s [j] > '9'))
+            //        j--;
+            //    if (s [i] != s [j])
+            //        return false;
+
+            //    i++;
+            //    j--;
+            //}
+
+            int [] a;
+            a = new int [] { 1, 2 };
+            return true;
+        }
+
+    }
 }

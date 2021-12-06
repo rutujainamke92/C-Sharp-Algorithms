@@ -155,7 +155,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
                 curr.next = temp;
             }
 
-            //var result = LinkedListSums.MergeTwoLists (l1);
+            var result = LinkedListSums.MergeTwoLists (l1,l1);
 
         }
 
@@ -525,6 +525,59 @@ namespace UnitTest.Rutuja.LeetCode.Tests
 
             //Assert
             Assert.Equal (answer, result);
+
+        }
+
+
+        [Fact]
+        public static void DeleteDuplicatefromLinkedList ()
+        {
+            ListNode l1 = new ListNode (1);
+            Add (1);
+            Add (1);
+            Add (2);
+            void Add (int v)
+            {
+                ListNode curr = l1;
+                ListNode temp = new ListNode (v);
+                while (curr.next != null) {
+                    curr = curr.next;
+                }
+                curr.next = temp;
+            }
+
+            var result = LinkedListSums.DeleteDuplicates(l1);
+
+
+        }
+
+
+        [Fact]
+        public static void SortedSquares ()
+        {
+            //Arrange
+            int [] nums = { 1, 2, 3, 0 };
+            
+            //Act
+            var result = Arrays.SortedSquares (nums);
+
+            //Assert
+            Assert.Equal (new int [] { 1,2,3,1}, result);
+
+        }
+
+
+        [Fact]
+        public static void FindAnagrams ()
+        {
+            //Arrange
+            string s = "cbaebabacd"; string p = "abc";
+
+            //Act
+            var result = Arrays.FindAnagrams (s,p);
+
+            //Assert
+            Assert.Equal (new List<int> () {0,6 }, result);
 
         }
     }

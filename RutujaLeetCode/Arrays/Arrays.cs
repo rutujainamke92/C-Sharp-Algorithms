@@ -543,5 +543,141 @@ namespace RutujaLeetCode.Arrays
             return answer;
 
         }
+
+        public static int [] SortedSquares (int [] nums)
+        {
+
+            int n = nums.Length - 1;
+
+            int [] ans = new int [n + 1];
+
+
+            for (int i = 0; i < n; i++) {
+                nums [i] = nums [i] * nums [i];
+            }
+            for (int i = 0; i < nums.Length && n > -1; i++) {
+                if (nums [i] > ans [n]) {
+                    ans [n - 1] = ans [n];
+                    ans [n] = nums [i];
+                } else {
+                    n--;
+                    ans [n] = nums [i];
+
+                }
+
+            }
+            return ans;
+
+
+        }
+
+        /// <summary>
+        /// Checkout Code on LC 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsAnagram (string s, string t)
+        {
+
+            if (s.Length != t.Length)
+                return false;
+            Dictionary<char, int> s1 = new Dictionary<char, int> ();
+            Dictionary<char, int> t1 = new Dictionary<char, int> ();
+
+
+            for (int i = 0; i < s.Length; i++) {
+                if (s1.ContainsKey (s [i])) {
+                    int val = 0;
+                    s1.TryGetValue (s [i], out val);
+                    s1.Add (s [i], val + 1);
+                } else
+                    s1.Add (s [i], 1);
+            }
+            for (int i = 0; i < s.Length; i++) {
+                if (t1.ContainsKey (t [i])) {
+                    int val = 0;
+                    t1.TryGetValue (t [i], out val);
+                    t1.Add (t [i], val + 1);
+                } else
+                    t1.Add (t [i], 1);
+            }
+
+            foreach (var item in s1) {
+                int val; int val2;
+                s1.TryGetValue (item.Key, out val);
+                t1.TryGetValue (item.Key, out val2);
+                if (!(t1.ContainsKey (item.Key) && val == val2))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/find-all-anagrams-in-a-string/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static IList<int> FindAnagrams (string s, string p)
+        {
+            Dictionary<char, int> pCount = new Dictionary<char, int> ();
+            Dictionary<char, int> sCount = new Dictionary<char, int> ();
+
+            IList<int> ans = new List<int> ();
+
+
+            for (int i = 0; i < p.Length; i++) {
+                if (!pCount.ContainsKey (p [i]))
+                    pCount.Add (p [i], 1);
+
+                else
+                    //dict[key] ==> gives its value 
+                    pCount [p [i]] = pCount [p [i]] + 1;
+
+            }
+
+
+            int r = pCount.Count;
+            int l;
+            for ( l = 0; l < s.Length && r < s.Length;) {
+
+                sCount.TryGetValue (s [l], out int val);
+                if (sCount.ContainsKey (s [l]) && val > 1)
+                    sCount [s [l]] = sCount [s [l]] - 1;
+
+                else
+                    sCount.Remove (s [l]);
+
+                if (!sCount.ContainsKey (s [r]))
+                    sCount.Add (s [r], 1);
+                else
+                    sCount [s [r]] = sCount [s [r]] + 1;
+
+                if (IsEqual (pCount, sCount)) {
+                    ans.Add (l);
+                }
+                l++;
+                r++;
+
+            }
+            if (IsEqual (pCount, sCount)) {
+                ans.Add (l);
+            }
+            return ans;
+
+        }
+        private static bool IsEqual (Dictionary<char, int> freq1, Dictionary<char, int> freq2)
+        {
+            foreach (var item in freq1) {
+                int val; int val2;
+                freq1.TryGetValue (item.Key, out val);
+                freq2.TryGetValue (item.Key, out val2);
+                if (!(freq2.ContainsKey (item.Key) && val == val2))
+                    return false;
+            }
+            return true;
+
+        }
     }
 }

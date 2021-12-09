@@ -155,7 +155,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
                 curr.next = temp;
             }
 
-            var result = LinkedListSums.MergeTwoLists (l1,l1);
+            var result = LinkedListSums.MergeTwoLists (l1, l1);
 
         }
 
@@ -546,7 +546,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
                 curr.next = temp;
             }
 
-            var result = LinkedListSums.DeleteDuplicates(l1);
+            var result = LinkedListSums.DeleteDuplicates (l1);
 
 
         }
@@ -557,12 +557,12 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         {
             //Arrange
             int [] nums = { 1, 2, 3, 0 };
-            
+
             //Act
             var result = Arrays.SortedSquares (nums);
 
             //Assert
-            Assert.Equal (new int [] { 1,2,3,1}, result);
+            Assert.Equal (new int [] { 1, 2, 3, 1 }, result);
 
         }
 
@@ -574,10 +574,60 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             string s = "cbaebabacd"; string p = "abc";
 
             //Act
-            var result = Arrays.FindAnagrams (s,p);
+            var result = Arrays.FindAnagrams (s, p);
 
             //Assert
-            Assert.Equal (new List<int> () {0,6 }, result);
+            Assert.Equal (new List<int> () { 0, 6 }, result);
+
+        }
+
+        [Fact]
+        public static void HasCycle ()
+        {
+            ListNode l1 = new ListNode (3);
+            Add (2);
+            Add (0);
+            Add (4);
+            //AddCycleAtLast ();
+
+            void Add (int v)
+            {
+                ListNode curr = l1;
+                ListNode temp = new ListNode (v);
+                while (curr.next != null) {
+                    curr = curr.next;
+                }
+                curr.next = temp;
+            }
+            void AddCycleAtLast ()
+            {
+                ListNode curr = l1;
+                ListNode temp = new ListNode ();
+                temp.next = l1;
+                while (curr.next != null) {
+                    curr = curr.next;
+                    temp = temp.next;
+                }
+                curr.next = temp;
+            }
+
+            var result = LinkedListSums.HasCycle (l1);
+            Assert.Equal (true, result); ;
+
+
+        }
+
+        [Fact]
+        public static void FindKthPositive ()
+        {
+            //Arrange
+            int [] nums = { 1,2, 3, 4 };
+            int k = 2;
+            //Act
+            var result = Arrays.FindKthPositive (nums, k);
+
+            //Assert
+            Assert.Equal (6, result);
 
         }
     }

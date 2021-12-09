@@ -188,5 +188,31 @@ namespace RutujaLeetCode.LinkedListSums
             }
             return true;
         }
+
+        /// <summary>
+        /// https://leetcode.com/problems/linked-list-cycle/
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public static bool HasCycle (ListNode head)
+        {
+            if (head.next == null || head == null)
+                return false;
+            ListNode curr = head;
+            Dictionary<int, int> dict = new Dictionary<int, int> ();
+
+            while (curr != null) {
+                if (dict.ContainsKey (curr.val))
+                    return false;
+                else {
+                    if (curr.next != null)
+                        dict.Add (curr.val, curr.next.val);
+                    else
+                        dict.Add (curr.val, -1);
+                }
+                curr = curr.next;
+            }
+            return true;
+        }
     }
 }

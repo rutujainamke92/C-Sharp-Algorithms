@@ -679,5 +679,39 @@ namespace RutujaLeetCode.Arrays
             return true;
 
         }
+
+        /// <summary>
+        /// https://leetcode.com/problems/kth-missing-positive-number/
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static int FindKthPositive (int [] arr, int m)
+        {
+
+            Dictionary<int, int> dic = new Dictionary<int, int> ();
+            for (int r = 0; r < arr.Length; r++) {
+                dic.Add (arr [r], 1);
+            }
+
+            int [] result = new int [m+1];
+            int n = arr.Length;
+            int i = 1; 
+            int p = 0;
+            while ( i < n)
+                {
+                if (!dic.ContainsKey (i)) {
+                    result [p] = i;
+                    p++;
+                }
+                 
+                i++;
+            }
+            while(p <= m) {
+                result [p++] =i ++;
+            }
+            return result [m-1];
+        }
     }
+
 }

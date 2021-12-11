@@ -621,7 +621,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         public static void FindKthPositive ()
         {
             //Arrange
-            int [] nums = { 1,2, 3, 4 };
+            int [] nums = { 1, 2, 3, 4 };
             int k = 2;
             //Act
             var result = Arrays.FindKthPositive (nums, k);
@@ -630,5 +630,84 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             Assert.Equal (6, result);
 
         }
+
+        [Fact]
+        public static void BackspaceCompare ()
+        {
+            //Arrange
+            string s = "y#fo##f";
+            string t = "y#f#o##f";
+            //Act
+            var result = Arrays.BackspaceCompare (s, t);
+
+            //Assert
+            Assert.True (result);
+
+        }
+
+        [Fact]
+        public static void ValidWordAbbreviation ()
+        {
+            //Arrange
+            string s = "a";
+            string t = "01";
+            //Act
+            var result = Arrays.ValidWordAbbreviation (s, t);
+
+            //Assert
+            Assert.True (result);
+
+        }
+
+        [Fact]
+        public static void ReverseString ()
+        {
+            //Arrange
+            string s = "rutuja";
+            //Act
+            var result = StringManipulation.ReverseString (s);
+
+            //Assert
+            Assert.Equal ("ajutur", result);
+
+        }
+
+        [Fact]
+        public static void ReverseWords ()
+        {
+            //Arrange
+            string s = "rutuja is great";
+            //Act
+            var result = StringManipulation.ReverseWords (s);
+
+            //Assert
+            Assert.Equal ("ajutur", result);
+        }
+
+        [Fact]
+        public static void CopyRandomList ()
+        {
+            Node l1 = new Node (0);
+            LinkedListSums.Add (1, l1, 3);
+            LinkedListSums.Add (2, l1, 1);
+            LinkedListSums.Add (3, l1, 3);
+
+            var result = LinkedListSums.CopyRandomList2 (l1);
+
+        }
+
+        [Fact]
+        public static void IsSubsequnce ()
+        {
+            //Arrange
+            string s = "rutu";
+            string t = "rutuja";
+            //Act
+            var result = StringManipulation.IsSubsequence (s, t);
+
+            //Assert
+            Assert.Equal (true, result);
+        }
+
     }
 }

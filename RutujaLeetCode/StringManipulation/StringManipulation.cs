@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RutujaLeetCode.String
@@ -551,6 +552,115 @@ namespace RutujaLeetCode.String
             int [] a;
             a = new int [] { 1, 2 };
             return true;
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/reverse-string/submissions/
+        /// //some modification
+        /// </summary>
+        /// <param name="s"></param>
+        public static string ReverseString (string s)
+        {
+            char [] str = new char [s.Length];
+            int j = 0;
+            foreach (var item in s) {
+
+                str [j] = item;
+                j++;
+            }
+
+            char c;
+            int lo = 0, hi = s.Length - 1;
+            while (hi >= lo) {
+                c = str [hi];
+                str [hi] = str [lo];
+                str [lo] = c;
+
+                lo++;
+                hi--;
+            }
+            return string.Join ("", str);
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/reverse-words-in-a-string-iii/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string ReverseWords (string s)
+        {
+            char [] ch = new char [s.Length];
+            for (int i = 0; i < s.Length; i++) {
+                ch [i] = s [i];
+            }
+
+            int hi, lo; int wordLength = 0;
+            for (int j = 0; j < s.Length; j++) {
+                if (ch [j] == ' ') {
+                    lo = wordLength;
+                    hi = j - 1;
+                    while (lo <= hi) {
+                        char temp = ch [hi];
+                        ch [hi] = ch [lo];
+                        ch [lo] = temp;
+                        wordLength++;
+                    }
+                    if (wordLength % 2 == 0)
+                        wordLength = wordLength * 2;
+                    else
+                        wordLength = wordLength * 2 + 1;
+
+                }
+            }
+            return string.Join ("", ch);
+        }
+
+        public static string ReverseWords11 (string s)
+        {
+            StringBuilder final = new StringBuilder ();
+            StringBuilder word = new StringBuilder ();
+
+
+            int hi, i = 0; int wordLength = 0;
+            for (int j = 0; j < s.Length; j++) {
+                if (s [j] != ' ') {
+                    word.Append (i);
+                } else {
+                    word.ToString ().Reverse ();
+                    final.Append (word);
+                    final.Append (" ");
+                    word.Clear ();
+                }
+
+
+
+            }
+            return string.Join ("", final);
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/is-subsequence/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsSubsequence (string s, string t)
+        {
+            int [] freq = new int [26]; //Dict of requency array to jot down all chars in t
+
+            for (int i = 0; i < s.Length; i++) {
+                freq [s [i] - 'a']++;
+            }
+
+            StringBuilder sb = new StringBuilder ();
+
+            for (int i = 0; i < t.Length; i++) {
+                if (freq [t [i] - 'a'] > 0) {
+                    sb.Append (t [i]);
+                    freq [t[i] - 'a']--;
+                }
+            }
+            return sb.ToString () == s; ///string.Equals(sb.ToString(), t);
         }
 
     }

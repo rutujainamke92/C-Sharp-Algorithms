@@ -640,7 +640,7 @@ namespace RutujaLeetCode.Arrays
 
             int r = pCount.Count;
             int l;
-            for ( l = 0; l < s.Length && r < s.Length;) {
+            for (l = 0; l < s.Length && r < s.Length;) {
 
                 sCount.TryGetValue (s [l], out int val);
                 if (sCount.ContainsKey (s [l]) && val > 1)
@@ -689,29 +689,133 @@ namespace RutujaLeetCode.Arrays
         public static int FindKthPositive (int [] arr, int m)
         {
 
-            Dictionary<int, int> dic = new Dictionary<int, int> ();
-            for (int r = 0; r < arr.Length; r++) {
-                dic.Add (arr [r], 1);
+            Dictionary<int, int> dict = new Dictionary<int, int> ();
+            int [] result = new int [m];
+            int n = arr.Length;
+            int r = 0;
+            int j;
+            for (int i = 0; i < n; i++) {
+                dict.Add (arr [i], 1);
+            }
+            for (j = 1; j <= arr [n - 1]; j++) {
+                if (!dict.ContainsKey (j) && r < m) {
+                    result [r] = j;
+                    r++;
+                }
+            }
+            while (r < m) {
+                result [r] = j;
+                r++;
+                j++;
             }
 
-            int [] result = new int [m+1];
+            return result [m - 1];
+
+
+            /*Dictionary<int, int> dict = new Dictionary<int, int> ();
+            int [] result = new int[m];
             int n = arr.Length;
-            int i = 1; 
-            int p = 0;
-            while ( i < n)
-                {
-                if (!dic.ContainsKey (i)) {
-                    result [p] = i;
-                    p++;
-                }
-                 
-                i++;
+            int r = 0;
+            int j;
+            for (int i=0;i<n;i++) {
+                dict.Add (arr [i], 1);
             }
-            while(p <= m) {
-                result [p++] =i ++;
+            for( j=1;j<n;j++) {
+                if (!dict.ContainsKey (j))
+                    {
+                    result [r] = j;
+                    r++;
+                    }
+
             }
-            return result [m-1];
+
+            for(int i=0; i<m;i++) {
+                result [r] = j;
+                r++;
+                j++;
+            }
+
+            return result[m - 1];*/
         }
+
+        /// <summary>
+        /// https://leetcode.com/problems/backspace-string-compare/
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool BackspaceCompare (string s, string t)
+        {
+            Stack<char> st1 = new Stack<char> ();
+            Stack<char> st2 = new Stack<char> ();
+
+            for (int i = 0; i < s.Length; i++) {
+                if (s [i] == '#') {
+                    if (st1.Count > 0)
+                        st1.Pop ();
+                } else
+                    st1.Push (s [i]);
+
+            }
+            for (int i = 0; i < t.Length; i++) {
+                if (t [i] == '#') {
+                    if (st2.Count > 0)
+                        st2.Pop ();
+                } else
+                    st2.Push (t [i]);
+            }
+
+            if (st1.Count != st2.Count)
+                return false;
+
+            else {
+                while (st1.Count > 0) {
+                    if (st1.Peek () == st2.Peek ()) {
+                        st1.Pop ();
+                        st2.Pop ();
+                    } else
+                        return false;
+                }
+            }
+            return true;
+        }
+
+
+        /// <summary>
+        /// https://leetcode.com/problems/valid-word-abbreviation/
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="abbr"></param>
+        /// <returns></returns>
+        public static bool ValidWordAbbreviation (string word, string abbr)
+        {
+            int i = 0, j = 0;
+            while (i < word.Length && j < abbr.Length) {
+                if (word [i] == abbr [j]) {
+                    i++;
+                    j++;
+                    continue;
+                }
+                int num = 0;
+                while (j < abbr.Length && Char.IsDigit (abbr [j])) {
+                    num = 10 * num + abbr [j] - '0'; //imp subtract Zero does the same as getNumericValue of Char
+                    j++;
+                }
+                if (num == 0)
+                    return false; //exit condition when there is no number inside abbr & word[i] != abbr[j]
+                else
+                    i = i + num; //Add the Number values in Abbr to word's counter i.e. 'i'
+                
+            }
+
+            if (i == word.Length && j == abbr.Length)
+                return true;
+            else
+                return false;
+
+        }
+
     }
+
 
 }

@@ -16,6 +16,21 @@ namespace RutujaLeetCode.LinkedListSums
         }
     }
 
+    public class Node
+    {
+        public int val;
+        public Node next;
+        public Node random;
+
+        public Node (int _val)
+        {
+            val = _val;
+            next = null;
+            random = null;
+        }
+    }
+
+
     /*
      Add Value in ListNode
      ListNode l1 = new ListNode (1);
@@ -40,6 +55,17 @@ namespace RutujaLeetCode.LinkedListSums
     /// </summary>
     public class LinkedListSums
     {
+        public static Node Add (int v, Node l1, int randomValue)
+        {
+            Node curr = l1;
+            Node temp = new Node (v);
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+            curr.next = temp;
+            curr.random = new Node (randomValue);
+            return l1;
+        }
 
         public static ListNode MergeTwoLists (ListNode l1, ListNode l2)
         {
@@ -180,7 +206,7 @@ namespace RutujaLeetCode.LinkedListSums
 
             ListNode curr2 = head;
             while (st != null) {
-                int now = st.Pop();
+                int now = st.Pop ();
                 if (now != curr2.val) {
                     return false;
                 }
@@ -213,6 +239,75 @@ namespace RutujaLeetCode.LinkedListSums
                 curr = curr.next;
             }
             return true;
+        }
+        /// <summary>
+        /// https://leetcode.com/problems/copy-list-with-random-pointer/
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public static Node CopyRandomList (Node head)
+        {
+            //Found difficult to create logic for first while loop.
+            //Even after watching anuj bhaiyya video.
+
+            Node curr = head;         //1. while loop for linking new copy to existing. create zigzag route 
+            while (curr != null) {
+                Node copy = new Node (curr.val);
+                Node temp = curr.next;
+                curr.next = copy;
+                curr.next.next = temp;
+                curr = temp;
+            }
+            curr = head;
+
+
+            //2. while loop to random pointer links
+            while (curr != null) {
+                if (curr.next != null) {
+                    curr.next.random = (curr.random != null) ? curr.random.next : null;
+                }
+
+                curr = curr.next.next;
+            }
+            curr = head.next;
+            //3. remove links and separate two listnodes.
+
+            Node nextptr = curr;
+            Node orig = head;
+            while (orig != null && nextptr.next != null) {
+                orig.next = orig.next.next;
+                nextptr.next = nextptr.next.next;
+                orig = orig.next;
+                nextptr = nextptr.next;
+            }
+
+            return curr;
+
+        }
+
+        public static Node CopyRandomList2 (Node head)
+        {
+            //Found difficult to create logic for first while loop.
+            //Even after watching anuj bhaiyya video.
+            Dictionary<Node, Node> dict = new Dictionary<Node, Node> ();
+            Node curr = head;
+            while (curr != null) {
+                dict.Add (curr, new Node(curr.val)); //create a dict with new Node(curr.val)
+                curr = curr.next;
+            }
+            curr = head;
+            Node copy = new Node (curr.val);
+            Node copyHead = copy;
+            foreach(var item in dict) {
+
+                Node temp = item.Key;
+                copy.val = temp.val;
+                copy.next = temp.next;
+                copy.random = item.Value;
+                copy = copy.next;
+            }
+            return copyHead;
+            
         }
     }
 }

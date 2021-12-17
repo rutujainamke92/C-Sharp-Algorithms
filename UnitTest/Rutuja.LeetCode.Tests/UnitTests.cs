@@ -9,6 +9,7 @@ using RutujaLeetCode.Graphs;
 using System;
 using System.Collections.Generic;
 using RutujaLeetCode.Tree;
+using static RutujaLeetCode.Tree.LearningTree;
 
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
@@ -687,7 +688,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         [Fact]
         public static void CopyRandomList ()
         {
-            Node l1 = new Node (0);
+            RutujaLeetCode.LinkedListSums.Node l1 = new RutujaLeetCode.LinkedListSums.Node (0);
             LinkedListSums.Add (1, l1, 3);
             LinkedListSums.Add (2, l1, 1);
             LinkedListSums.Add (3, l1, 3);
@@ -708,6 +709,86 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             //Assert
             Assert.Equal (true, result);
         }
+
+        [Fact]
+        public static void AddStrings ()
+        {
+            //Arrange
+            string s = "1234";
+            string t = "92";
+            //Act
+            var result = StringManipulation.AddStrings (s, t);
+
+            //Assert
+            Assert.Equal ("1246", result);
+        }
+
+        [Fact]
+        public static void RightSideView ()
+        {
+            LearningTree createTree = new LearningTree ();
+            var root = createTree.insertDFS (new int [] { 1, 2, 3, 4, 5 });
+
+            var result = LearningTree.RightSideView (root);
+        }
+
+        [Fact]
+        public static void DFSInOrderTraversalwithStack ()
+        {
+            LearningTree lt = new LearningTree ();
+
+            LearningTree.Node root = new LearningTree.Node (1);
+            root.left = new LearningTree.Node (2);
+            root.right = new LearningTree.Node (3);
+            root.left.left = new LearningTree.Node (4);
+            root.left.right = new LearningTree.Node (5);
+            //var root = createTree.insertDFS (new int [] { 1,2,3,4,5});
+
+            var result = LearningTree.DFSInOrderTraversalwithStack (root);
+
+            Assert.Equal (new List<int> () { 4, 2, 5, 1, 3 }, result);
+        }
+
+        [Fact]
+        public static void LowestCommonAncestor ()
+        {
+            LearningTree lt = new LearningTree ();
+
+            TreeNode root = new TreeNode (1);
+            root.left = new TreeNode (2);
+            root.right = new TreeNode (3);
+            root.left.left = new TreeNode (4);
+            root.left.right = new TreeNode (5);
+
+            TreeNode p = new TreeNode (2);
+            TreeNode q = new TreeNode (5);
+
+            TreeNode ans = new TreeNode (2);
+
+            var result = lt.LowestCommonAncestor (root, p, q);
+
+            Assert.Equal (ans, result);
+        }
+
+        [Fact]
+        public static void AverageOfLevels ()
+        {
+            //Arrange
+            TreeNode root = new TreeNode (3);
+            root.left = new TreeNode (9);
+            root.right = new TreeNode (20);
+            root.right.left = new TreeNode (15);
+            root.right.right = new TreeNode (7);
+
+            List<double> ans = new List<double> () { 3.00000, 14.50000, 11.00000 };
+
+            //Act
+            var result = LearningTree.AverageOfLevels (root);
+
+            //Assert
+            Assert.Equal (ans, result);
+        }
+
 
     }
 }

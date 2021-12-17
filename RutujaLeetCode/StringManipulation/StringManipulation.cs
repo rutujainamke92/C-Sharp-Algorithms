@@ -657,10 +657,69 @@ namespace RutujaLeetCode.String
             for (int i = 0; i < t.Length; i++) {
                 if (freq [t [i] - 'a'] > 0) {
                     sb.Append (t [i]);
-                    freq [t[i] - 'a']--;
+                    freq [t [i] - 'a']--;
                 }
             }
             return sb.ToString () == s; ///string.Equals(sb.ToString(), t);
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/add-strings/
+        /// FACEBOOK , MICORSOFT, AMAZON, GOOGLE , SNAP, BLOOMBERG, WAYFAIR
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public static string AddStrings (string s1, string s2)
+        {
+            int [] num1 = new int [s1.Length];
+            int [] num2 = new int [s2.Length];
+            for (int i = 0; i < s1.Length; i++) {
+                num1 [i] = s1 [i] - '0';
+            }
+            for (int i = 0; i < s2.Length; i++) {
+                num2 [i] = s2 [i] - '0';
+            }
+
+            StringBuilder sb = new StringBuilder ();
+
+            int j = num2.Length - 1; int k = num1.Length - 1;
+            while (k >= 0 && j >= 0) {
+                int x = num1 [k] + num2 [j];
+                int carry = x / 10;
+                int res = x % 10;
+                sb.Append (res + carry);
+                k--; j--;
+            }
+
+            if (k != num1.Length) {
+                while (k >= 0) {
+                    sb.Append (num1 [k]);
+                    k--;
+                }
+            }  if (j != num2.Length) {
+                while (j >= 0) {
+                    sb.Append (num1 [j]);
+                    j--;
+                }
+            }
+            string result = sb.ToString ();
+            var charArray = result.ToCharArray ();
+            Array.Reverse (charArray);
+            return new string (charArray);
+            /* DONT USE THIS
+             * Doesn't work for lareg int nums do 
+             int num1 = 0, num2 = 0;
+
+             for (int i = 0; i < s1.Length; i++) {
+                 num1 = (num1 * 10) + s1 [i] - '0';
+             }
+             for (int i = 0; i < s2.Length; i++) {
+                 num2 = (num2 * 10) + s2 [i] - '0';
+             }
+             int result = num1 + num2;
+
+             return result.ToString ();*/
+
         }
 
     }

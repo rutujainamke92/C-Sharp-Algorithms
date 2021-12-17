@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RutujaLeetCode.Tree
 {
@@ -9,26 +10,37 @@ namespace RutujaLeetCode.Tree
         public class Node
         {
             public int val;
-            public Node left;
-            public Node right;
-            public Node (int val = 0)
+            public Node left, right;
+
+            public Node (int item)
+            {
+                val = item;
+                left = right = null;
+            }
+        }
+        public class TreeNode
+        {
+            public int val;
+            public TreeNode left = null;
+            public TreeNode right = null;
+            public TreeNode (int val = 0)
             {
                 this.val = val;
             }
         }
         //public Node root = new Node ();
-        static Node root = null;
+        static TreeNode root = null;
 
-        static List<Node> q = new List<Node> ();
+        static List<TreeNode> q = new List<TreeNode> ();
 
         // Function to create a node
         // with 'value' as the data
         // stored in it.
         // Both the children of this
         // new Node are initially null.
-        public static Node newNode (int value)
+        public static TreeNode newNode (int value)
         {
-            Node n = new Node ();
+            TreeNode n = new TreeNode ();
             n.val = value;
             n.left = null;
             n.right = null;
@@ -37,7 +49,7 @@ namespace RutujaLeetCode.Tree
 
         public static void insertValue (int value)
         {
-            Node node = newNode (value);
+            TreeNode node = newNode (value);
             if (root == null)
                 root = node;
 
@@ -71,14 +83,33 @@ namespace RutujaLeetCode.Tree
         // insertValue() for all array
         // elements. All calls use same
         // queue.
-        public static Node createTree (int [] arr, int n)
+        public static TreeNode createTree (int [] arr, int n)
         {
             for (int i = 0; i < n; i++)
                 insertValue (arr [i]);
             return root;
         }
 
-        public void InsertVal (Node root, int insert)
+
+        public void IntersertionUsed (TreeNode givenNode, int insert)
+        {
+            var curr = new TreeNode (insert);
+
+            if (givenNode.left == null)
+                givenNode.left = curr;
+
+            else
+                IntersertionUsed (givenNode.left, insert);
+
+            if (givenNode.right == null)
+                givenNode.right = curr;
+            else
+                IntersertionUsed (givenNode.right, insert);
+
+        }
+
+
+        public void InsertVal (TreeNode root, int insert)
         {
             if (root == null) {
                 root.val = insert;
@@ -86,7 +117,7 @@ namespace RutujaLeetCode.Tree
                 InserNode2 (root, insert);
             }
         }
-        public void InserNode2 (Node givenNode, int insert)
+        public void InserNode2 (TreeNode givenNode, int insert)
         {
             if (insert <= givenNode.val) {
                 if (givenNode.left == null)
@@ -103,31 +134,31 @@ namespace RutujaLeetCode.Tree
             }
         }
 
-        public Node insertDFS (int [] keys)
+        public TreeNode insertDFS (int [] keys)
         {
-            Node root = new Node ();
+            TreeNode root = new TreeNode ();
             foreach (int key in keys) {
                 InsertDfs (root, key);
             }
             return root;
         }
-        public void InsertDfs (Node node, int val)
+        public void InsertDfs (TreeNode node, int val)
         {
             if (node.val > val) {
                 if (node.left == null)
-                    node.left = new Node (val);
+                    node.left = new TreeNode (val);
                 else
                     InsertDfs (node.left, val);
             } else {
                 if (node.right == null)
-                    node.right = new Node (val);
+                    node.right = new TreeNode (val);
                 else
                     InsertDfs (node.right, val);
             }
         }
 
         //Inorder
-        public void DisplayTree (Node root)
+        public void DisplayTree (TreeNode root)
         {
             if (root == null) return;
 
@@ -138,7 +169,7 @@ namespace RutujaLeetCode.Tree
 
 
         // Function to check the given key exist or not
-        static bool iterativeSearch (Node root, int key)
+        static bool iterativeSearch (TreeNode root, int key)
         {
             // Traverse until root reaches to dead end
             while (root != null) {
@@ -161,7 +192,7 @@ namespace RutujaLeetCode.Tree
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
-        public static int MaxDepth (Node root)
+        public static int MaxDepth (TreeNode root)
         {
             int dist = 0;
             while (root != null) {
@@ -181,7 +212,7 @@ namespace RutujaLeetCode.Tree
         /// <summary>
         /// LeetCode--> https://leetcode.com/problems/same-tree/
         /// </summary>
-        public bool IsSameTree (Node p, Node q)
+        public bool IsSameTree (TreeNode p, TreeNode q)
         {
             List<int> treeA = new List<int> ();
             List<int> treeB = new List<int> ();
@@ -199,7 +230,7 @@ namespace RutujaLeetCode.Tree
             return ans;
         }
 
-        public void preOrderStore (Node root, List<int> ans)
+        public void preOrderStore (TreeNode root, List<int> ans)
         {
             if (root == null) {
                 ans.Add (0);
@@ -210,7 +241,7 @@ namespace RutujaLeetCode.Tree
             preOrderStore (root.right, ans);
         }
 
-        public void postOrderStore (Node root, List<int> ans)
+        public void postOrderStore (TreeNode root, List<int> ans)
         {
             if (root == null) {
                 ans.Add (0);
@@ -230,10 +261,10 @@ namespace RutujaLeetCode.Tree
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public IList<IList<int>> LevelOrder (Node node)
+        public IList<IList<int>> LevelOrder (TreeNode node)
         {
             IList<IList<int>> result = new List<IList<int>> ();
-            Queue<Node> q = new Queue<Node> ();
+            Queue<TreeNode> q = new Queue<TreeNode> ();
             if (node == null) {
                 return result;
             }
@@ -267,7 +298,7 @@ namespace RutujaLeetCode.Tree
         /// https://leetcode.com/problems/symmetric-tree/
         /// </summary>
         /// <param name="root"></param>
-        public bool IsSymmetric (Node root)
+        public bool IsSymmetric (TreeNode root)
         {
             List<int> treeA = new List<int> ();
             List<int> treeB = new List<int> ();
@@ -299,7 +330,7 @@ namespace RutujaLeetCode.Tree
         /// <param name="tree"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static int FindClosestValueInBst (Node tree, int target)
+        public static int FindClosestValueInBst (TreeNode tree, int target)
         {
             // Write your code here.
             int ans = tree.val;
@@ -336,14 +367,14 @@ namespace RutujaLeetCode.Tree
         ///If two Trees are identitcal
         /////Find levels of trees
         ///if levels and number of nodes match then True else false
-        public static bool IsIdentical (Node x, Node y)
+        public static bool IsIdentical (TreeNode x, TreeNode y)
         {
             if (x == null && y == null)
                 return true;
             return IsIdenticalPre (x, y);
         }
 
-        public static bool IsIdenticalPre (Node x, Node y)
+        public static bool IsIdenticalPre (TreeNode x, TreeNode y)
         {
             bool boolVal = true;
             int first = x.val;
@@ -359,7 +390,7 @@ namespace RutujaLeetCode.Tree
             return boolVal;
         }
 
-        public static int FindLevelofTree (Node root, int level)
+        public static int FindLevelofTree (TreeNode root, int level)
         {
             while (root != null && (root.left != null || root.right != null)) {
                 level++;
@@ -373,29 +404,256 @@ namespace RutujaLeetCode.Tree
 
         }
 
-        public Node insertIntoBST (Node root, int val)
+        public TreeNode insertIntoBST (TreeNode root, int val)
         {
             if (root == null)
-                return new Node (val);
+                return new TreeNode (val);
 
             DFS (root, val);
 
             return root;
         }
 
-        private void DFS (Node node, int val)
+        private void DFS (TreeNode node, int val)
         {
             if (node.val > val) {
                 if (node.left == null)
-                    node.left = new Node (val);
+                    node.left = new TreeNode (val);
                 else
                     DFS (node.left, val);
             } else {
                 if (node.right == null)
-                    node.right = new Node (val);
+                    node.right = new TreeNode (val);
                 else
                     DFS (node.right, val);
             }
         }
+
+
+        ///AlgoMonster + LC
+        ///https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+        public static IList<IList<int>> ZigzagLevelOrder (TreeNode root)
+        {
+            if (root == null)
+                return new List<IList<int>> ();
+            List<IList<int>> result = new List<IList<int>> ();
+            Queue<TreeNode> qu = new Queue<TreeNode> ();
+            int count = 0;
+            qu.Enqueue (root);
+
+            while (qu.Count > 0) {
+                List<int> zigzag = new List<int> ();
+
+                int size = qu.Count;
+
+                while (size > 0) {
+                    var current = qu.Dequeue ();
+                    zigzag.Add (current.val);
+                    if (current.left != null)
+                        qu.Enqueue (current.left);
+                    if (current.right != null)
+                        qu.Enqueue (current.right);
+
+                    count++;
+                    size--;
+
+                }
+                if (result.Count % 2 == 1)
+                    zigzag.Reverse ();
+                result.Add (zigzag);
+            }
+            return result;
+
+        }
+
+        //VV IMP FB, GOOGLE, ALL COMPANIES
+        //https://leetcode.com/problems/binary-tree-right-side-view/
+        public static IList<int> RightSideView (TreeNode root)
+        {
+            List<int> res = new List<int> ();
+
+            if (root == null)
+                return res;
+
+            Queue<TreeNode> qu = new Queue<TreeNode> ();
+            qu.Enqueue (root);
+
+            while (qu.Count > 0) {
+                int size = qu.Count ();
+                res.Add (qu.Peek ().val);  // only append the first node we encounter since it's the rightmost
+
+                while (size > 0) {
+                    var current = qu.Dequeue (); //Check code on Leetcode.It might have changed
+                    if (current.right != null)
+                        qu.Enqueue (current.right);     
+                     if (current.left != null)
+                        qu.Enqueue (current.left);
+                    size--;
+                }
+            }
+            if (qu.Count > 0)
+                res.Add (qu.Peek ().val);
+
+            return res;
+
+
+        }
+
+        /// <summary>
+        /// https://leetcode.com/problems/average-of-levels-in-binary-tree/
+        /// </summary>
+        public static IList<double> AverageOfLevels (TreeNode root)
+        {
+            //Using BFS because level wise avg 
+            if (root == null)
+                return new List<double> ();
+
+            Queue<TreeNode> qu = new Queue<TreeNode> ();
+            List<double> avgList = new List<double> ();
+            qu.Enqueue (root);
+            double avgSum = 0;
+            while (qu.Count > 0) {
+                int size = qu.Count;
+                int numOfNodes = qu.Count;
+                avgSum = 0;
+                while (size > 0) {
+                    var cur = qu.Dequeue ();
+                    avgSum = avgSum + cur.val;
+
+                    if (cur.left != null)
+                        qu.Enqueue (cur.left);
+
+                    if (cur.left != null)
+                        qu.Enqueue (cur.right);
+                    size--;
+                }
+
+                avgList.Add (avgSum / numOfNodes);
+            }
+
+            return avgList;
+        }
+
+        public static IList<int> DFSInOrderTraversalwithStack (Node root)
+        {
+            List<int> res = new List<int> ();
+
+            if (root == null)
+                return res;
+            Stack<Node> stk = new Stack<Node> ();
+            var cur = root;
+            while (stk.Count > 0 || cur != null) {
+
+                while (cur != null) {
+                    stk.Push (cur);
+                    cur = cur.left;
+                }
+                cur = stk.Pop ();
+                res.Add (cur.val);
+                cur = cur.right;
+
+            }
+            return res;
+        }
+
+
+        TreeNode copy = new TreeNode ();
+        TreeNode pointToHead = null;  //Pointing to head and return that value in the end
+
+        public TreeNode IncreasingBST (TreeNode root)
+        {
+            pointToHead = copy;  //Pointing to head and return that value in the end
+
+
+            if (root == null)
+                return null;
+            inOrder (root);
+            return pointToHead.right;
+        }
+
+        public void inOrder (TreeNode cur)
+        {
+            if (cur == null)
+                return;
+
+            inOrder (cur.left);  //call recursively.
+
+            copy.left = null;  //imp to set left as null.
+            copy.right = cur; //Add curr value to each new copy node we create.
+            copy = copy.right;    ///increase pointers.
+
+            inOrder (cur.right);
+        }
+
+
+        List<TreeNode> pPath;
+        List<TreeNode> qPath;
+        public TreeNode LowestCommonAncestor (TreeNode root, TreeNode p, TreeNode q)
+        {
+            pPath = new List<TreeNode> ();
+            qPath = new List<TreeNode> ();
+
+            find (root, p.val, pPath);
+            find (root, q.val, qPath);
+
+            int i = pPath.Count-1, j = qPath.Count-1;
+            while ( i>=0 && j>=0 && pPath[i] ==qPath[j]) {
+                i--;j--;
+            }
+
+            i++;j++; //since i and j will be at pointer where the previous i & j were a match.
+
+            return pPath [i]; //or qPath[j] both will be same LCA
+
     }
+
+        public static bool find (TreeNode root, int data, List<TreeNode> path)
+        {
+            if (root == null)
+                return false;
+            if (root.val == data) {
+                path.Add (root);
+                return true;
+            }
+
+            bool leftchild = find (root.left, data, path);
+            if (leftchild) {
+                path.Add (root);
+                return true;
+            }
+
+            bool rightchild = find (root.right, data, path);
+            if (rightchild) {
+                path.Add (root);
+                return true;
+            }
+
+            return false;
+        }
+
+        List<int> setList;
+
+        public int FindSecondMinimumValue (TreeNode root)
+        {
+            setList = new List<int> ();
+            if (setList.Count >= 1)
+                return setList [1];
+            else return -1;
+        }
+
+        public void inOrder2 (TreeNode root)
+        {
+            if (root == null)
+                return;
+
+            if (!setList.Contains (root.val)) {
+                setList.Add (root.val);
+            }
+            inOrder (root.left);
+            inOrder (root.right);
+        }
+
+    }
+
 }
+

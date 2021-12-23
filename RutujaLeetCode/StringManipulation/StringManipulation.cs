@@ -580,7 +580,7 @@ namespace RutujaLeetCode.String
                 hi--;
             }
             return string.Join ("", str);
-        }
+        }       
 
         /// <summary>
         /// https://leetcode.com/problems/reverse-words-in-a-string-iii/
@@ -613,6 +613,23 @@ namespace RutujaLeetCode.String
                 }
             }
             return string.Join ("", ch);
+        }
+
+
+
+        //Practise string reverse
+        public static string reverse (string s)
+        {
+            char [] ch = new char [s.Length];
+
+            int j = 0;
+            for (int i = s.Length-1; i >=0;i--) {
+
+                ch [j] = s [i];
+                j++;
+            }
+           return  string.Join ("", ch);
+
         }
 
         public static string ReverseWords11 (string s)

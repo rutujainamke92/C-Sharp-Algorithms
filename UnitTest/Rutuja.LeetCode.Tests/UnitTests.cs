@@ -789,6 +789,20 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             Assert.Equal (ans, result);
         }
 
+        [Fact]
+        public static void reverse()
+        {
+            string s = "rutuja";
+            var result = StringManipulation.reverse (s);
+            Assert.Equal ("ajutur", result);
+        }
 
+        [Fact]
+        public static void NumSqures ()
+        {
+            int n = 12;
+            var result = NumberProblems.NumSquares (n);
+            Assert.Equal (3, result);
+        }
     }
 }

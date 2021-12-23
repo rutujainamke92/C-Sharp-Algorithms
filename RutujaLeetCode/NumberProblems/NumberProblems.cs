@@ -282,15 +282,14 @@ namespace RutujaLeetCode.IntProblems
         /// <param name="nums"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static  int [] CreateTargetArray (int [] nums, int [] index)
+        public static int [] CreateTargetArray (int [] nums, int [] index)
         {
             int [] target = new int [nums.Length];
-            for(int i= 0;i<index.Length;i++) {
-                if(index[i]>=i) {
+            for (int i = 0; i < index.Length; i++) {
+                if (index [i] >= i) {
                     target [index [i]] = nums [i];
-                } else
-                {
-                    for(int j = nums.Length-1;j>index[i];j--) {
+                } else {
+                    for (int j = nums.Length - 1; j > index [i]; j--) {
                         target [j] = target [j - 1];
                     }
                     target [index [i]] = nums [i];
@@ -308,15 +307,28 @@ namespace RutujaLeetCode.IntProblems
             //Please note brilliant idea, square root the number and loop until SQRT
             //No numbers repeat until sqrt hence no check added.
             //Else can use hashset to add each unique no and add them all in the end
-            int sqrt = (int)Math.Sqrt(num);
+            int sqrt = (int)Math.Sqrt (num);
             for (int i = 2; i <= sqrt; i++) {
                 if (num % i == 0) {
                     sum = sum + i;
-                    sum = sum+ num / i;
-                }                
+                    sum = sum + num / i;
+                }
             }
 
             return sum == num;
+        }
+
+        public static int NumSquares (int n, int count)
+        {
+            if (n < 0)
+                return 0;
+            if (n == 0)
+                return count;
+            count ++;
+            int num = (int)Math.Sqrt (n);
+            n = n - (num * num);
+
+           return  NumSquares (n, count);
         }
     }
 }

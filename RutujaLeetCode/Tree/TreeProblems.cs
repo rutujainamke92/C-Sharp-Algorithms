@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 //test
@@ -46,6 +47,24 @@ namespace RutujaLeetCode.Tree
                 }
             }
             return sum;
+        }
+
+
+        public static List<int> ans = new List<int> ();
+        public IList<int> InorderTraversal (TreeNode root)
+        {
+            Inorder2 (root);
+            return ans;
+        }
+
+        public static void Inorder2 (TreeNode root)
+        {
+            if (root == null)
+                return;
+
+            Inorder2 (root.left);
+            ans.Add (root.val);
+            Inorder2 (root.right);
         }
     }
 }

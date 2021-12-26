@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using RutujaLeetCode.Tree;
 using static RutujaLeetCode.Tree.LearningTree;
+using RutujaLeetCode.Stack;
 
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
@@ -790,7 +791,7 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         }
 
         [Fact]
-        public static void reverse()
+        public static void reverse ()
         {
             string s = "rutuja";
             var result = StringManipulation.reverse (s);
@@ -801,8 +802,31 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         public static void NumSqures ()
         {
             int n = 12;
-            var result = NumberProblems.NumSquares (n);
+            var result = NumberProblems.NumSquares (n, 0);
             Assert.Equal (3, result);
+        }
+
+        [Fact]
+        public static void MinStack ()
+        {
+            MinStack minStack = new MinStack ();
+            minStack.Push (-2);
+            minStack.Push (0);
+            minStack.Push (-3);
+            minStack.GetMin (); // return -3
+            minStack.Pop ();
+            minStack.Top ();    // return 0
+            minStack.GetMin (); // return -2
+                                // var result = NumberProblems.NumSquares (n, 0);
+                                // Assert.Equal (3, result);
+        }
+
+        [Fact]
+        public static void EvalRPN ()
+        {
+            string [] tokens = new string [] { "2", "1", "+", "3", "*" };
+            StackProblems st = new StackProblems ();
+            var result = st.EvalRPN (tokens);
         }
     }
 }

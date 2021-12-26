@@ -9,19 +9,21 @@
     <None Remove="QuickNavigation\" />
     <None Remove="Dictionary\" />
     <None Remove="HashSet\" />
-    <None Remove="StacknDictionary\" />
     <None Remove="LinkedListSums\" />
     <None Remove="Graphs\" />
     <None Remove="Tree\" />
+    <None Remove="Stack\" />
+    <None Remove="Queue\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrays\" />
     <Folder Include="QuickNavigation\" />
     <Folder Include="Dictionary\" />
     <Folder Include="HashSetProblem\" />
-    <Folder Include="StacknDictionary\" />
     <Folder Include="LinkedListSums\" />
     <Folder Include="Graphs\" />
     <Folder Include="Tree\" />
+    <Folder Include="Stack\" />
+    <Folder Include="Queue\" />
   </ItemGroup>
 </Project>

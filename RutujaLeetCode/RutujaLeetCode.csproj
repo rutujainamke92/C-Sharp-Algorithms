@@ -14,6 +14,7 @@
     <None Remove="Tree\" />
     <None Remove="Stack\" />
     <None Remove="Queue\" />
+    <None Remove="Matrix\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrays\" />
@@ -25,5 +26,6 @@
     <Folder Include="Tree\" />
     <Folder Include="Stack\" />
     <Folder Include="Queue\" />
+    <Folder Include="Matrix\" />
   </ItemGroup>
 </Project>

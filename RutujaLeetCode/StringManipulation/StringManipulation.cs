@@ -735,7 +735,24 @@ namespace RutujaLeetCode.String
              }
              int result = num1 + num2;
 
-             return result.ToString ();*/
+             return result.ToString ();*/         
+        }
+
+        public string ReverseRecursion (string s)
+        {
+            string rev="";
+            helper (s, 0, rev);
+            return rev;
+        }
+        public void helper(string s, int length, string rev)
+        {
+            if (length == s.Length)
+                return;
+            rev = rev + s [length];
+            helper (s, length + 1, rev);
+            //base case when n==0
+
+            //pass n value and create a 
 
         }
 

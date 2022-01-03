@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using RutujaLeetCode.Tree;
 using static RutujaLeetCode.Tree.LearningTree;
 using RutujaLeetCode.Stack;
+using RutujaLeetCode.MyMatrix;
 
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
@@ -827,6 +828,66 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             string [] tokens = new string [] { "2", "1", "+", "3", "*" };
             StackProblems st = new StackProblems ();
             var result = st.EvalRPN (tokens);
+        }
+
+
+        [Fact]
+        public static void CanVisitAllRooms ()
+        {
+            IList<IList<int>> rooms = new List<IList<int>> () { new List<int> () { 1, 3 }, new List<int> () { 3, 0, 1 }, new List<int> () { 2 }, new List<int> { 0 } };
+            var result = Arrays.CanVisitAllRooms (rooms);
+            Assert.Equal (true, result);
+
+        }
+
+        [Fact]
+        public static void UpdateMatrix ()
+        {
+            IList<IList<int>> rooms = new List<IList<int>> () { new List<int> () { 1, 3 }, new List<int> () { 3, 0, 1 }, new List<int> () { 2 }, new List<int> { 0 } };
+            int [] [] mat = new int [] [] { new int [] { 0, 0, }, new int [] { 0, 1, 0 }, new int [] { 1, 1, 1 } };
+            int [] [] ans = new int [] [] { new int [] { 0, 0, 0 }, new int [] { 0, 1, 0 }, new int [] { 1, 2, 1 } };
+            Matrix2DArray matrix2DArray = new Matrix2DArray ();
+            var result = matrix2DArray.UpdateMatrix (mat);
+            Assert.Equal (ans, result);
+
+        }
+
+        [Fact]
+        public static void serialize ()
+        {
+            //Arrange
+            TreeNode root = new TreeNode (1);
+            root.left = new TreeNode (2);
+            root.right = new TreeNode (3);
+            root.right.left = new TreeNode (4);
+            root.right.right = new TreeNode (5);
+
+
+            //Act
+            LearningTree lt = new LearningTree ();
+            // var result = lt.serialize (root);
+            var result1 = lt.deserialize ("1,2,#,#,3,4,#,#,5,#,#,");
+
+            //Assert
+            Assert.Equal ("1,2,#,#,3,4,#,#,5,#,#,", "");
+        }
+
+        [Fact]
+        public static void SwapPairs ()
+        {
+            ListNode l1 = new ListNode (1);
+            LinkedListSums.Add (2, l1);
+            LinkedListSums.Add (3, l1);
+            LinkedListSums.Add (4, l1);
+
+            var result = LinkedListSums.SwapPairs (l1);
+
+        }
+
+        [Fact]
+        public static void GeneratePascal ()
+        {
+            var result = Arrays.Generate (5);
         }
     }
 }

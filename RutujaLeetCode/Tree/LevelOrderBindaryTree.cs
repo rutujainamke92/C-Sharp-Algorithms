@@ -140,6 +140,7 @@ namespace RutujaLeetCode.Tree
             else
                 return IsBalanced (root.left) && IsBalanced (root.right);
         }
+      
     }
 
 }

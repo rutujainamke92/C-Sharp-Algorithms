@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RutujaLeetCode.Arrays
@@ -805,7 +806,7 @@ namespace RutujaLeetCode.Arrays
                     return false; //exit condition when there is no number inside abbr & word[i] != abbr[j]
                 else
                     i = i + num; //Add the Number values in Abbr to word's counter i.e. 'i'
-                
+
             }
 
             if (i == word.Length && j == abbr.Length)
@@ -815,7 +816,55 @@ namespace RutujaLeetCode.Arrays
 
         }
 
+        //https://leetcode.com/problems/keys-and-rooms/
+        //STACK
+        public static bool CanVisitAllRooms (IList<IList<int>> rooms)
+        {
+            bool [] seen = new bool [rooms.Count];
+            seen [0] = true;
+
+            Stack<int> stack = new Stack<int> (); //Very imp to use stack to visit only those rooms whose key we have. Not sequencially.
+            stack.Push (0);
+
+
+            while (stack.Count > 0) {
+                var current = stack.Pop ();
+                foreach (var item in rooms [current]) {
+                    if (!seen [item]) {
+                        seen [item] = true;
+                        stack.Push (item);
+                    }
+                }
+            }
+
+            for (int i = 1; i < seen.Length; i++) {
+                if (!seen [i])
+                    return false;
+            }
+            return true;
+        }
+
+        //https://leetcode.com/problems/pascals-triangle/solution/
+
+        public static IList<IList<int>> Generate (int numRows)
+        {
+            List<IList<int>> triangle = new List<IList<int>> ();
+            List<int> rows = new List<int> ();
+            rows.Add (1);
+            triangle.Add (rows);
+            for (int i = 1; i < numRows; i++) {
+                var prev = triangle.Last ();  //Very imp trick so access prev values;
+                for (int j = 0; j <= i; j++) {
+                    if (j == i || j == 0)
+                        rows.Add (1);
+                    else
+                        rows.Add (prev [j] + prev [j + 1]);
+                }
+                triangle.Add (rows);
+            }
+            return triangle;
+        }
+
+
     }
-
-
 }

@@ -67,6 +67,15 @@ namespace RutujaLeetCode.LinkedListSums
             return l1;
         }
 
+        public static void Add (int v, ListNode l1)
+        {
+            ListNode curr = l1;
+            ListNode temp = new ListNode (v);
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+            curr.next = temp;
+        }
         public static ListNode MergeTwoLists (ListNode l1, ListNode l2)
         {
             ListNode dummy = new ListNode (0);
@@ -292,13 +301,13 @@ namespace RutujaLeetCode.LinkedListSums
             Dictionary<Node, Node> dict = new Dictionary<Node, Node> ();
             Node curr = head;
             while (curr != null) {
-                dict.Add (curr, new Node(curr.val)); //create a dict with new Node(curr.val)
+                dict.Add (curr, new Node (curr.val)); //create a dict with new Node(curr.val)
                 curr = curr.next;
             }
             curr = head;
             Node copy = new Node (curr.val);
             Node copyHead = copy;
-            foreach(var item in dict) {
+            foreach (var item in dict) {
 
                 Node temp = item.Key;
                 copy.val = temp.val;
@@ -307,7 +316,32 @@ namespace RutujaLeetCode.LinkedListSums
                 copy = copy.next;
             }
             return copyHead;
-            
+
+        }
+
+        public static ListNode SwapPairs (ListNode head)
+        {
+                ListNode dummy = new ListNode (-1);
+                dummy.next = head;
+
+                ListNode prev = dummy;
+
+                while ((head != null) && (head.next != null)) {
+                    //Node to be swapped
+                    ListNode first = head;
+                    ListNode second = head.next;
+
+                    //swapping
+                    prev.next = second;
+                    first.next = second.next;
+                    second.next = first;
+
+                    //Reinitializing head and pre for next swap/iteration
+                    prev = first;
+                    head = first.next;
+                }
+
+            return dummy.next;
         }
     }
 }

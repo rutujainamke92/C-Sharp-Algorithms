@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace RutujaLeetCode.Tree
 {
@@ -485,8 +486,8 @@ namespace RutujaLeetCode.Tree
                 while (size > 0) {
                     var current = qu.Dequeue (); //Check code on Leetcode.It might have changed
                     if (current.right != null)
-                        qu.Enqueue (current.right);     
-                     if (current.left != null)
+                        qu.Enqueue (current.right);
+                    if (current.left != null)
                         qu.Enqueue (current.left);
                     size--;
                 }
@@ -596,16 +597,16 @@ namespace RutujaLeetCode.Tree
             find (root, p.val, pPath);
             find (root, q.val, qPath);
 
-            int i = pPath.Count-1, j = qPath.Count-1;
-            while ( i>=0 && j>=0 && pPath[i] ==qPath[j]) {
-                i--;j--;
+            int i = pPath.Count - 1, j = qPath.Count - 1;
+            while (i >= 0 && j >= 0 && pPath [i] == qPath [j]) {
+                i--; j--;
             }
 
-            i++;j++; //since i and j will be at pointer where the previous i & j were a match.
+            i++; j++; //since i and j will be at pointer where the previous i & j were a match.
 
             return pPath [i]; //or qPath[j] both will be same LCA
 
-    }
+        }
 
         public static bool find (TreeNode root, int data, List<TreeNode> path)
         {
@@ -653,6 +654,138 @@ namespace RutujaLeetCode.Tree
             inOrder (root.right);
         }
 
+        Queue<TreeNode> que = new Queue<TreeNode> ();
+        List<IList<int>> ans = new List<IList<int>> ();
+        public IList<IList<int>> LevelOrderLC (TreeNode root)
+        {
+            que.Enqueue (root);
+            while (que.Count > 0) {
+                int size = que.Count;
+                var temp = new List<int> ();
+
+                while (size > 0) {
+                    var cur = que.Dequeue ();
+                    temp.Add (cur.val);
+                    if (cur.left != null) {
+                        que.Enqueue (cur.left);
+                    }
+                    if (cur.right != null) {
+                        que.Enqueue (cur.right);
+                    }
+                }
+                size--;
+                ans.Add (temp);
+            }
+            return ans;
+        }
+
+        List<IList<int>> result = new List<IList<int>> ();
+        public IList<IList<int>> LevelOrderRecursive (TreeNode root)
+        {
+            if (root == null)
+                return result;
+            int level = 0;
+            helper (root, level);
+            return result;
+        }
+        public void helper (TreeNode cur, int level)
+        {
+            if (cur == null)
+                return;
+            if (result.Count != level)
+                result.ElementAt (level).Add (cur.val);
+            else
+                result.ElementAt (level).Add (cur.val);
+
+            if (cur.left != null)
+                helper (cur.left, level + 1);
+            if (cur.right != null)
+                helper (cur.right, level + 1);
+
+        }
+
+        //HARD LC
+        //https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+        // Encodes a tree to a single string.
+        StringBuilder sb = new StringBuilder ();
+        public string serialize (TreeNode root)
+        {
+            if (root == null) {
+                sb.Append ("#" + ",");
+                return sb.ToString ();
+            }
+            sb.Append (root.val + ",");
+            serialize (root.left);
+            serialize (root.right);
+            return sb.ToString ();
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize (string data)
+        {
+            Queue<string> qSt = new Queue<string> ();
+            foreach (var item in data) {
+                if (item == ',')
+                    continue;
+                qSt.Enqueue (item.ToString ());
+            }
+            return deserializeHelper (qSt);
+        }
+
+        public TreeNode deserializeHelper (Queue<string> que)
+        {
+            TreeNode treeNode = null;
+            if (que.Count == 0)
+                return treeNode;
+            string node = que.Dequeue ();
+            if (node == "#") return null;
+            treeNode = new TreeNode (int.Parse (node));
+            treeNode.left = deserializeHelper (que);
+            treeNode.right = deserializeHelper (que);
+            return treeNode;
+        }
+
+        //Queue<Node> quT = new Queue<Node> ();
+        //public Node Connect (Node root)
+        //{
+        //    if (root == null)
+        //        return null;
+        //    quT.Enqueue (root);
+        //    while(quT.Count>0) {
+        //        int size = quT.Count;
+
+        //        while(size>0) {
+        //            var cur = quT.Dequeue ();
+        //            if (quT.Peek () != null)
+        //                cur.next = quT.Peek ();
+        //            else
+        //                cur.next = null;
+        //            size--;
+
+        //            if (cur.left != null)
+        //                quT.Enqueue (cur.left);
+        //            if (cur.right != null)
+        //                quT.Enqueue (cur.right);
+        //            size--;
+        //        }
+
+        //    }
+        //    return root;
+        //}
+
+        TreeNode node = null;
+        public TreeNode SearchBST (TreeNode root, int val)
+        {
+            node = root;
+            if (node == null || node.val == val)
+                return node;
+
+            if (val < node.val)
+                return SearchBST (node.left, val);
+
+            else//No need to chec if val>node.val its implied bydefault. hence directly calling right subtree;
+                return SearchBST (node.right, val);
+        }
     }
 
 }

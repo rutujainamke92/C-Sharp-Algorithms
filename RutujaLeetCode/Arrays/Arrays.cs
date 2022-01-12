@@ -864,7 +864,24 @@ namespace RutujaLeetCode.Arrays
             }
             return triangle;
         }
+        public static bool CanAttendMeetings (int [] [] intervals)
+        {
+            if (intervals.Length == 0 || intervals [0].Length == 0)
+                return true;
+            int start ;
+            int end ;
+            for (int i = 0; i < intervals.Length; i++) {
+                for (int j = i+1; j < intervals.Length - 1; j++) {
+                    start = intervals [i] [0];
+                    end = intervals [i] [1];
 
-
+                    if ((start >= intervals [j] [0] && start < intervals [j] [1]) || (intervals [j] [0] >= start && intervals [j] [0] < end)) {
+                        return false;
+                    }
+                  
+                }
+            }
+            return true;
+        }
     }
 }

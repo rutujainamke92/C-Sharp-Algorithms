@@ -65,6 +65,6 @@ namespace RutujaLeetCode.Tree
             Inorder2 (root.left);
             ans.Add (root.val);
             Inorder2 (root.right);
-        }
+        }      
     }
 }

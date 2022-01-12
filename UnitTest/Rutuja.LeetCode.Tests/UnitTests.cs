@@ -12,6 +12,7 @@ using RutujaLeetCode.Tree;
 using static RutujaLeetCode.Tree.LearningTree;
 using RutujaLeetCode.Stack;
 using RutujaLeetCode.MyMatrix;
+using RutujaLeetCode;
 
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
@@ -381,6 +382,20 @@ namespace UnitTest.Rutuja.LeetCode.Tests
 
             var result = GraphProblems.FindCenter (edges);
             Assert.Equal (2, result);
+        }
+        [Fact]
+        public static void AllPathsSoucreTarget ()
+        {
+            //VV IMP how to declare 2D array.
+            int [] [] edges = {
+                            new int[2]{1,2},
+                            new int[1]{3},
+                            new int[1]{3},
+                            new int[]{ }
+                           };
+
+            var result = GraphProblems.AllPathsSourceTarget (edges);
+            Assert.Equal (null, result);
         }
 
         [Fact]
@@ -823,6 +838,16 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         }
 
         [Fact]
+        public static void MaxStack ()
+        {
+            MaxStack maxstack = new MaxStack ();
+            maxstack.Push (5);
+            maxstack.Push (1);
+            maxstack.PopMax ();//5
+            maxstack.PeekMax ();//5          
+        }
+
+        [Fact]
         public static void EvalRPN ()
         {
             string [] tokens = new string [] { "2", "1", "+", "3", "*" };
@@ -885,9 +910,39 @@ namespace UnitTest.Rutuja.LeetCode.Tests
         }
 
         [Fact]
-        public static void GeneratePascal ()
+        public static void MergeTwoLists2 ()
         {
-            var result = Arrays.Generate (5);
+            ListNode l1 = new ListNode (1);
+            LinkedListSums.Add (2, l1);
+
+            ListNode l2 = new ListNode (1);
+            LinkedListSums.Add (2, l2);
+            LinkedListSums.Add (4, l2);
+
+            var result = LinkedListSums.MergeTwoLists2 (l1, l2);
+
+        }
+        [Fact]
+        public static void KthGrammar ()
+        {
+            var result = StringManipulation.KthGrammar (2, 2);
+        }
+
+        [Fact]
+        public static void CanAttendMeetings ()
+        {
+            var input = new int [2] [];
+            input [0] = new int [] { 5, 8 };
+            input [1] = new int [] { 6, 8 };
+            var result = Arrays.CanAttendMeetings (input);
+        }
+
+
+        [Fact]
+        public static void KthGrammar2 ()
+        {
+            int n = 3, k = 3;
+            var result = Recursion.KthGrammar (n, k);
         }
     }
 }

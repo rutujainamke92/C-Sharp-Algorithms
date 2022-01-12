@@ -580,7 +580,7 @@ namespace RutujaLeetCode.String
                 hi--;
             }
             return string.Join ("", str);
-        }       
+        }
 
         /// <summary>
         /// https://leetcode.com/problems/reverse-words-in-a-string-iii/
@@ -623,12 +623,12 @@ namespace RutujaLeetCode.String
             char [] ch = new char [s.Length];
 
             int j = 0;
-            for (int i = s.Length-1; i >=0;i--) {
+            for (int i = s.Length - 1; i >= 0; i--) {
 
                 ch [j] = s [i];
                 j++;
             }
-           return  string.Join ("", ch);
+            return string.Join ("", ch);
 
         }
 
@@ -713,7 +713,8 @@ namespace RutujaLeetCode.String
                     sb.Append (num1 [k]);
                     k--;
                 }
-            }  if (j != num2.Length) {
+            }
+            if (j != num2.Length) {
                 while (j >= 0) {
                     sb.Append (num1 [j]);
                     j--;
@@ -735,16 +736,16 @@ namespace RutujaLeetCode.String
              }
              int result = num1 + num2;
 
-             return result.ToString ();*/         
+             return result.ToString ();*/
         }
 
         public string ReverseRecursion (string s)
         {
-            string rev="";
+            string rev = "";
             helper (s, 0, rev);
             return rev;
         }
-        public void helper(string s, int length, string rev)
+        public void helper (string s, int length, string rev)
         {
             if (length == s.Length)
                 return;
@@ -754,6 +755,30 @@ namespace RutujaLeetCode.String
 
             //pass n value and create a 
 
+        }
+
+        //Refer the pther CODE inside recursion
+        public static int KthGrammar (int n, int k)
+        {
+            List<string> result = new List<string> ();
+
+            result.Add ("0");
+            //nested for loop to compute each row
+            for (int i = 1; i <= n; i++) {
+                StringBuilder row = new StringBuilder ();
+                var prev = result [i - 1];
+                for (int j = 0; j < i; j++) {
+                    if (prev [j] == '0') {
+                        row.Append ("01");
+                    } else if (prev [j] == '1')
+                        row.Append ("10");
+                }
+                result.Add (row.ToString ());
+            }
+
+            var rows = result [n];
+
+            return (int)rows [k];
         }
 
     }

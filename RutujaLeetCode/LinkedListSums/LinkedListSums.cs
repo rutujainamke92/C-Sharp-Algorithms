@@ -321,27 +321,50 @@ namespace RutujaLeetCode.LinkedListSums
 
         public static ListNode SwapPairs (ListNode head)
         {
-                ListNode dummy = new ListNode (-1);
-                dummy.next = head;
+            ListNode dummy = new ListNode (-1);
+            dummy.next = head;
 
-                ListNode prev = dummy;
+            ListNode prev = dummy;
 
-                while ((head != null) && (head.next != null)) {
-                    //Node to be swapped
-                    ListNode first = head;
-                    ListNode second = head.next;
+            while ((head != null) && (head.next != null)) {
+                //Node to be swapped
+                ListNode first = head;
+                ListNode second = head.next;
 
-                    //swapping
-                    prev.next = second;
-                    first.next = second.next;
-                    second.next = first;
+                //swapping
+                prev.next = second;
+                first.next = second.next;
+                second.next = first;
 
-                    //Reinitializing head and pre for next swap/iteration
-                    prev = first;
-                    head = first.next;
-                }
+                //Reinitializing head and pre for next swap/iteration
+                prev = first;
+                head = first.next;
+            }
 
             return dummy.next;
+        }
+
+        public static ListNode MergeTwoLists2 (ListNode list1, ListNode list2)
+        {
+            ListNode prev = new ListNode ();
+            prev.next = list1;
+            while (list1 != null || list2 != null) {
+                var temp = prev.next;
+
+                if (list1 != null && list1.val >= list2.val) {
+                    list1.next = list2;
+                    list2 = list2.next;
+                    list1.next.next = temp;
+                } else if (list2 != null && list1.next == null) {
+                    list1.next = list2;
+                    list2 = list2.next;
+                    list1 = list1.next;
+
+                } else
+                    list1 = list1.next;
+            }
+            return prev.next;
+
         }
     }
 }

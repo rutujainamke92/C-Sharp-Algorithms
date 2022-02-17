@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace RutujaLeetCode.LinkedListSums
 {
@@ -367,4 +364,100 @@ namespace RutujaLeetCode.LinkedListSums
 
         }
     }
+
+    public class LRUCache
+    { //Requirement -->The functions get and put must each run in O(1) average time complexity.
+      //DS- Doubly lL + Dictionary
+
+        /*
+       lruList: 
+       1. Most recent used cache will be added in the head of the LinkedList.
+       2. Use LinkedListNode to add/remove element to achieve O(1) time complexity.
+       3. LinkedList<T>.Last returns the last LinkedListNode<T>.
+   */
+        int capacity = 0;
+        LinkedList<int[]> doubleLink = new LinkedList<int[]> ();   //LL is nothing but doubly linkd list in C#
+        Dictionary<int, LinkedListNode<int []>> dict = new Dictionary<int, LinkedListNode<int []>> (); //Represents a node in a LinkedList<T>. Node of type doubly LL.
+        public LRUCache (int capacity)
+        {
+            this.capacity = capacity;
+        }
+
+        public int Get (int key)
+        {
+            if(!dict.ContainsKey(key)) {
+                return -1;
+            }
+
+            //make this key first in list.
+            //Reorder(dict[key]);
+            return dict [key].Value[1];  //Key=0 Value=1, hence Value[1]
+        }
+
+        public void Put (int key, int value)
+        {
+            if (dict.ContainsKey (key))
+                dict [key].Value[1] = value;
+
+            else {
+                if(dict.Count == this.capacity) {
+                    {
+                        dict.Remove (doubleLink.Last.Value [0]);
+                        doubleLink.RemoveLast (); //Removes it from our LL too. Inbuilt Remove last func. 
+                    }
+
+                    dict.Add (key, new LinkedListNode<int []> (new int [] { key, value }));
+                }
+            }
+            Reorder (dict [key]);
+        }
+
+        private void Reorder (LinkedListNode<int[]> node) //makes element afirst element, to show it was recently used/
+        {
+            if (node.Previous != null)  //i.e. its not the first element
+                doubleLink.Remove (node);
+
+            if (doubleLink.First != node) //Make this node start at the list
+                doubleLink.AddFirst (node); //Use of In built add first operation. 
+        }
+
+        public ListNode AddTwoNumbers (ListNode l1, ListNode l2)
+        {
+            int first = 99;
+            int sec = 1;
+            int sum = first + sec;
+
+            ListNode ans = new ListNode ();
+            var start = new ListNode ();
+            start.next = ans;
+            start = start.next;
+            while (sum > 0) {
+                start.val = sum % 10;
+                start = start.next;
+                sum = sum / 10;
+            }
+
+            return ans;
+        }
+
+        private int convertNum (ListNode l1)
+        {
+            var first = l1;
+            int firstNum = 0;
+            while (first.next != null) {
+                firstNum = firstNum * 10 + first.val;
+            }
+            return firstNum;
+        }
+    }
+
+    /**
+     * Your LRUCache object will be instantiated and called as such:
+     * LRUCache obj = new LRUCache(capacity);
+     * int param_1 = obj.Get(key);
+     * obj.Put(key,value);
+     */
+
+    
+
 }

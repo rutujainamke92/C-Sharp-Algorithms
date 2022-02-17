@@ -13,6 +13,7 @@ using static RutujaLeetCode.Tree.LearningTree;
 using RutujaLeetCode.Stack;
 using RutujaLeetCode.MyMatrix;
 using RutujaLeetCode;
+using RutujaLeetCode.BackTracking;
 
 //TODO : readd Graphs and Tree from old solution (RutujaPractice/ csharp)
 //TODO : Another todo
@@ -944,5 +945,81 @@ namespace UnitTest.Rutuja.LeetCode.Tests
             int n = 3, k = 3;
             var result = Recursion.KthGrammar (n, k);
         }
+
+        [Fact]
+        public static void LongestPalindrome ()
+        {
+            string s = "cbbd";
+            StringManipulation sm = new StringManipulation ();
+            var result = sm.LongestPalindrome (s);
+        }
+        [Fact]
+        public static void SolveNQueen ()
+        {
+
+            Backtracking back = new Backtracking ();
+            var result = back.SolveNQueens (4);
+        }
+        [Fact]
+        public static void Exist ()
+        {
+            var board = new char [3] [];
+            board [0] = new char [] { 'A', 'B', 'C', 'E' };
+            board [1] = new char [] { 'S', 'F', 'C', 'S' };
+            board [2] = new char [] { 'A', 'D', 'E', 'E' };
+            string word = "ABCB";
+
+            Backtracking b = new Backtracking ();
+            var result = b.Exist (board, word);
+            Assert.False (result);
+            //https://leetcode.com/problems/game-of-life/discuss/
+        }
+        [Fact]
+        public static void LetterCombinations ()
+        {
+
+            Backtracking back = new Backtracking ();
+            var result = back.LetterCombinations ("23");
+        }
+
+        [Fact]
+        public static void ThreeSum ()
+        {
+
+            Solution soln = new Solution ();
+            var result = soln.ThreeSum (new int [] { -1, 0, 1, 2, -1, -4 });
+
+            //-4,-1,-1,0,1,2
+
+            //-1 -1 0 2  --> ans
+            //1 2 5
+        }
+        [Fact]
+        public static void GameofLife ()
+        {
+            int [] [] mat = new int [] [] { new int [] { 1, 1 }, new int [] { 1, 0 } };
+            int [] [] ans = new int [] [] { new int [] { 1, 1 }, new int [] { 1, 1 } };
+            Matrix2DArray matrix2DArray = new Matrix2DArray ();
+            matrix2DArray.GameOfLife (mat);
+            //     Assert.Equal (ans, result);
+
+        }
+
+        [Fact]
+        public static void MinRemoveToMakeValid ()
+        {
+            StackProblems sp = new StackProblems ();
+            sp.MinRemoveToMakeValid ("))((");
+        }
+
+        [Fact]
+        public static void RankTeams ()
+        {
+            Dictionary sp = new Dictionary ();
+            string [] votes = new string [] { "WXYZ", "XYZW" };
+            sp.RankTeams (votes);
+            //     Assert.Equal (ans, result);
+        }
+
     }
 }

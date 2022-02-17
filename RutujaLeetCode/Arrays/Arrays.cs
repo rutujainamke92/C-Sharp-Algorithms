@@ -853,7 +853,7 @@ namespace RutujaLeetCode.Arrays
             rows.Add (1);
             triangle.Add (rows);
             for (int i = 1; i < numRows; i++) {
-                var prev = triangle.Last ();  //Very imp trick so access prev values;
+                var prev = triangle.Last();  //Very imp trick so access prev values;
                 for (int j = 0; j <= i; j++) {
                     if (j == i || j == 0)
                         rows.Add (1);
@@ -877,8 +877,7 @@ namespace RutujaLeetCode.Arrays
 
                     if ((start >= intervals [j] [0] && start < intervals [j] [1]) || (intervals [j] [0] >= start && intervals [j] [0] < end)) {
                         return false;
-                    }
-                  
+                    }                  
                 }
             }
             return true;

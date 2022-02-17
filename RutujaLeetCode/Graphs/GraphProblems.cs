@@ -164,8 +164,8 @@ namespace RutujaLeetCode.Graphs
                 if (grid.Length == 0 || grid == null)
                     return 0;
 
-                if(grid [0] [0] == 1 || grid [row - 1] [col - 1] == 1)  //All edges cases. Start and end should not be 1.
-                  return -1;                   
+                if (grid [0] [0] == 1 || grid [row - 1] [col - 1] == 1)  //All edges cases. Start and end should not be 1.
+                    return -1;
 
                 Queue<int []> qu = new Queue<int []> ();
                 qu.Enqueue (new int [] { 0, 0 });
@@ -214,5 +214,175 @@ namespace RutujaLeetCode.Graphs
         //Pop from q then move that way and push its neighbors in Q
         //After we poll increment level; 
 
+
+        Dictionary<int, List<int>> preMap = new Dictionary<int, List<int>> ();
+
+        public bool CanFinish (int numCourses, int [] [] prerequisites)
+        {
+
+            bool [] visited = new bool [numCourses];
+
+            for (int i = 0; i < numCourses; i++) {
+                preMap [i] = new List<int> ();
+            }
+
+            for (int i = 0; i < numCourses; i++) {
+                preMap [prerequisites [i] [0]].Add (prerequisites [i] [1]);
+            }
+
+            for (int i = 0; i < numCourses; i++) {
+                if (!dfs (i, visited))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool dfs (int course, bool [] visited)
+        {
+            if (visited [course]) return false;
+
+            if (preMap [course] == null) return true;
+
+            visited [course] = true;
+
+            foreach (var pre in preMap [course]) {
+                if (!dfs (pre, visited))
+                    return false;
+            }
+
+            //            visited[course]=null;
+            preMap [course].Clear ();
+            return true;
+        }
+
+        public double [] CalcEquation (IList<IList<string>> equations, double [] values, IList<IList<string>> queries)
+        {
+            //step1. Build the graph from the Equation.
+
+            var graph = new Dictionary<string, Dictionary<string, double>> ();
+
+            for (int i = 0; i < equations.Count; i++) {
+                var equation = equations [i];
+                var numerator = equation [0];
+                var denominator = equation [1];
+
+                //create node in graph/dictionary if not present
+                if (!graph.ContainsKey (numerator))
+                    graph.Add (numerator, new Dictionary<string, double> ());
+                if (!graph.ContainsKey (denominator))
+                    graph.Add (denominator, new Dictionary<string, double> ());
+
+                //Add both ways (2 way street)
+                graph [numerator].Add (denominator, values [i]);
+
+                graph [denominator].Add (numerator, 1 / values [i]);
+
+
+            }
+
+            //step2. evaluate each query by backtracking (DFS)
+            double [] result = new double [queries.Count];
+
+            for (int i = 0; i < queries.Count; i++) {
+                var query = queries [i];
+                var numer = query [0];
+                var denom = query [1]; //denomerator
+
+                if (!graph.ContainsKey (numer) || !graph.ContainsKey (denom)) //condition 1- if the node doesnt exist.
+                    result [i] = -1.0;
+                else if (numer == denom) //self loop
+                    result [i] = 1;
+                else {
+                    //solve the equation using path search
+                    var visited = new HashSet<string> ();
+                    result [i] = BacktrackEvaluate (graph, numer, denom, 1, visited);
+                }
+            }
+
+            return new double [0];
+        }
+
+        public double BacktrackEvaluate (Dictionary<string, Dictionary<string, double>> graph, string current, string target, double accProduct, HashSet<string> visited)
+        {
+            //add current node to visited array
+            visited.Add (current);
+            double result = -1.0;
+
+            var neighbors = graph [current];
+            if (neighbors.ContainsKey (target))
+                result = accProduct * neighbors [target];
+            else {
+                foreach (var neighbor in neighbors) {
+                    var nextnode = neighbor.Key;
+                    var neighborValue = neighbor.Value;
+
+                    //for current backtracking if node is aleady visited we continue
+                    if (visited.Contains (nextnode))
+                        continue;
+                    //else we calculate prodcut of currNode's value and neighbour's value
+                    //we pass that product down the line to complete backtracking until targetNode
+                    result = BacktrackEvaluate (graph, nextnode, target, accProduct * neighborValue, visited);
+                    //if we dont get -1.0 that mean we found the path so we should break the loop
+                    //else continue with next neighbour
+                    if (result == -1.0)
+                        break;
+                }
+            }
+            // 3. Unmark the visit, for next backtracking
+            visited.Remove (current);
+            return result;
+        }
+
+        //equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
+        private int minimumCost = int.MaxValue;
+        public int FindCheapestPrice (int n, int [] [] flights, int src, int dst, int k)
+        {
+            var graph = new Dictionary<int, Dictionary<int, int>> (n);
+            var visited = new HashSet<int> ();  //Visited array fro data pruning.
+
+            //create a graph out of given flights.
+            //visited array also        
+
+            for (int i = 0; i < flights.Length; i++) {
+                int start = flights [i] [0];
+                int end = flights [i] [1];
+                int cost = flights [i] [2];
+                if (graph.ContainsKey (start))
+                    graph [start].Add (end, cost);
+                else
+                    graph.Add (start, new Dictionary<int, int> () { { end, cost } });
+            }
+
+            DFS (visited, graph, src, dst, k + 1, 0); //Make sure to send K+1 nodes.  
+
+            return minimumCost == int.MaxValue ? -1 : minimumCost;
+        }
+
+        private void DFS (HashSet<int> visited, Dictionary<int, Dictionary<int, int>> graph, int src, int target, int K, int cost)
+        {
+            //Can add visited array here to improve pruning.
+            //3 edges cases. k is already exhausted
+            //Graph doesnot contain that node
+            //Target acheived hence return back.
+
+            if (K < 0)
+                return;
+
+            if (src == target) {
+                minimumCost = cost;
+                return;
+            }
+            if (!graph.ContainsKey (src) || visited.Contains(src)) return;
+
+            visited.Add (src);
+
+            foreach (var neighbor in graph [src]) {
+                var newCost = cost + neighbor.Value;  //Very imp to not mix newcost with Cost.
+                if (newCost > minimumCost)
+                    continue;
+                DFS (visited, graph, neighbor.Key, target, K - 1, newCost);
+            }
+            visited.Remove(src);
+        }
     }
 }

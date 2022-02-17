@@ -758,6 +758,7 @@ namespace RutujaLeetCode.String
         }
 
         //Refer the pther CODE inside recursion
+
         public static int KthGrammar (int n, int k)
         {
             List<string> result = new List<string> ();
@@ -781,5 +782,32 @@ namespace RutujaLeetCode.String
             return (int)rows [k];
         }
 
+        int lo, maxLength;
+        public string LongestPalindrome (string s)
+        {
+            if (s.Length < 2)
+                return s;
+
+            for (int i = 0; i < s.Length - 1; i++) {
+                findHiLo (s, i, i); //assume odd length, try to extend Palindrome as possible
+
+                findHiLo (s, i, i + 1);  //assume even length
+            }
+            return s.Substring (lo, maxLength);
+        }
+
+        private void findHiLo (string s, int j, int k)
+        {
+            while (j >= 0 && k < s.Length && s [j] == s [k]) {
+                j--;
+                k++;
+            }
+
+            int newLength = k - j - 1;
+            if (maxLength < newLength) {
+                lo = j + 1;
+                maxLength = newLength;
+            }
+        }
     }
 }

@@ -15,6 +15,8 @@
     <None Remove="Stack\" />
     <None Remove="Queue\" />
     <None Remove="Recursion\" />
+    <None Remove="OOPs\" />
+    <None Remove="BackTracking\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrays\" />
@@ -27,5 +29,7 @@
     <Folder Include="Stack\" />
     <Folder Include="Queue\" />
     <Folder Include="Recursion\" />
+    <Folder Include="OOPs\" />
+    <Folder Include="BackTracking\" />
   </ItemGroup>
 </Project>
